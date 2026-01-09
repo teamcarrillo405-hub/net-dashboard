@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Economic Impact | NXT Infrastructure Velocity Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep-indigo: #1e1b4b;
+            --electric-yellow: #FDFF66;
+            --white: #ffffff;
+            --off-white: #f8fafc;
+            --green: #22c55e;
+            --green-bg: rgba(34, 197, 94, 0.1);
+            --yellow: #eab308;
+            --yellow-bg: rgba(234, 179, 8, 0.1);
+            --red: #ef4444;
+            --red-bg: rgba(239, 68, 68, 0.1);
+            --border: #e2e8f0;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--off-white); color: var(--text-primary); line-height: 1.6; }
+        
+        .header { background: var(--deep-indigo); color: #fff; padding: 1rem 2rem; }
+        .header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .brand { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--white); }
+        .brand-mark { width: 6px; height: 28px; background: var(--electric-yellow); }
+        .brand-text { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; }
+        .header-actions { display: flex; gap: 0.5rem; align-items: center; }
+        .btn { padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.8rem; font-weight: 500; text-decoration: none; cursor: pointer; border: none; }
+        .btn-home { background: var(--electric-yellow); color: var(--deep-indigo); }
+        .btn-ghost { background: transparent; color: rgba(255,255,255,0.8); }
+        .btn-ghost:hover { background: rgba(255,255,255,0.1); color: white; }
+        
+        .breadcrumb { max-width: 1400px; margin: 0 auto; padding: 1rem 2rem 0; font-size: 0.8rem; color: var(--text-muted); }
+        .breadcrumb a { color: var(--text-muted); text-decoration: none; }
+        .breadcrumb a:hover { color: var(--deep-indigo); }
+        .breadcrumb .separator { margin: 0 0.5rem; opacity: 0.5; }
+        .breadcrumb .current { font-weight: 500; color: var(--text-primary); }
+        
+        .analysis-nav { max-width: 1400px; margin: 0 auto; padding: 0 2rem; }
+        .analysis-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0.75rem 0; border-bottom: 1px solid var(--border); margin-bottom: 0.5rem; }
+        .analysis-tab { padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.8rem; font-weight: 500; text-decoration: none; color: var(--text-secondary); transition: all 0.2s; }
+        .analysis-tab:hover { background: var(--off-white); color: var(--text-primary); }
+        .analysis-tab.active { background: var(--deep-indigo); color: var(--white); }
+        
+        .main { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        
+        .page-header { margin-bottom: 2rem; }
+        .page-title { font-size: 1.75rem; font-weight: 700; color: var(--deep-indigo); margin-bottom: 0.5rem; }
+        .page-subtitle { color: var(--text-secondary); }
+        
+        .summary-banner { background: linear-gradient(135deg, var(--deep-indigo) 0%, #312e81 100%); color: #fff; border-radius: 12px; padding: 1.5rem 2rem; margin-bottom: 2rem; }
+        .summary-text { font-size: 1.125rem; line-height: 1.7; }
+        .summary-text strong { color: var(--electric-yellow); }
+        
+        .metrics-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-bottom: 2rem; }
+        .metric-card { background: var(--white); border-radius: 12px; padding: 1.5rem; border: 1px solid var(--border); text-align: center; }
+        .metric-value { font-family: 'JetBrains Mono', monospace; font-size: 2rem; font-weight: 700; line-height: 1; margin-bottom: 0.5rem; }
+        .metric-value.green { color: var(--green); }
+        .metric-value.yellow { color: var(--yellow); }
+        .metric-value.red { color: var(--red); }
+        .metric-label { font-size: 0.8125rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+        .metric-detail { font-size: 0.75rem; color: var(--text-muted); }
+        
+        .section { margin-bottom: 2rem; }
+        .section-title { font-size: 1.125rem; font-weight: 600; color: var(--deep-indigo); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        
+        .card { background: var(--white); border-radius: 12px; padding: 1.5rem; border: 1px solid var(--border); }
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        
+        .jobs-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+        .jobs-table th { background: var(--off-white); padding: 0.875rem 1rem; text-align: left; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); font-weight: 600; }
+        .jobs-table td { padding: 1rem; border-bottom: 1px solid var(--border); }
+        .jobs-table tr:hover { background: rgba(99, 102, 241, 0.03); }
+        .project-name { font-weight: 600; }
+        .project-name a { color: var(--text-primary); text-decoration: none; }
+        .project-loc { font-size: 0.75rem; color: var(--text-muted); }
+        .jobs-number { font-weight: 600; text-align: right; }
+        .jobs-number.construction { color: var(--yellow); }
+        .jobs-number.permanent { color: var(--green); }
+        .status-tag { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; }
+        .status-tag.hiring { background: var(--green-bg); color: var(--green); }
+        .status-tag.planned { background: var(--yellow-bg); color: #b45309; }
+        .status-tag.delayed { background: var(--red-bg); color: var(--red); }
+        
+        .state-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; }
+        .state-name { font-weight: 600; font-size: 1rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+        .state-flag { font-size: 1.25rem; }
+        .state-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+        .state-stat { text-align: center; padding: 0.5rem; background: var(--off-white); border-radius: 6px; }
+        .state-stat-value { font-size: 1.125rem; font-weight: 700; color: var(--deep-indigo); }
+        .state-stat-label { font-size: 0.6875rem; color: var(--text-muted); }
+        .state-projects { margin-top: 0.75rem; font-size: 0.75rem; color: var(--text-secondary); }
+        
+        .chips-tracker { margin-top: 1rem; }
+        .chips-row { display: flex; align-items: center; gap: 1rem; padding: 0.875rem 0; border-bottom: 1px solid var(--border); }
+        .chips-row:last-child { border-bottom: none; }
+        .chips-company { width: 140px; font-weight: 600; font-size: 0.875rem; }
+        .chips-bar-container { flex: 1; height: 24px; background: var(--off-white); border-radius: 4px; overflow: hidden; position: relative; }
+        .chips-bar { height: 100%; border-radius: 4px; display: flex; align-items: center; justify-content: flex-end; padding-right: 0.5rem; }
+        .chips-bar.awarded { background: var(--green); }
+        .chips-bar.pending { background: var(--yellow); }
+        .chips-amount { font-size: 0.875rem; font-weight: 600; width: 80px; text-align: right; }
+        .chips-status { font-size: 0.6875rem; color: var(--text-muted); width: 80px; }
+        
+        .supply-chain-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+        .supply-item { text-align: center; padding: 1rem; background: var(--off-white); border-radius: 8px; }
+        .supply-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .supply-label { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.25rem; }
+        .supply-value { font-weight: 600; font-size: 0.875rem; }
+        .supply-trend { font-size: 0.6875rem; color: var(--green); }
+        .supply-trend.negative { color: var(--red); }
+        
+        .economic-multiplier { display: flex; align-items: center; gap: 2rem; padding: 1.5rem; background: var(--off-white); border-radius: 8px; margin-top: 1rem; }
+        .multiplier-visual { display: flex; align-items: center; gap: 0.5rem; }
+        .multiplier-circle { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.125rem; color: #fff; }
+        .multiplier-arrow { font-size: 1.5rem; color: var(--text-muted); }
+        .multiplier-text { flex: 1; }
+        .multiplier-title { font-weight: 600; margin-bottom: 0.25rem; }
+        .multiplier-desc { font-size: 0.875rem; color: var(--text-secondary); }
+        
+        .footer { background: var(--deep-indigo); color: #fff; padding: 1.5rem 2rem; margin-top: 3rem; }
+        .footer-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; font-size: 0.8125rem; opacity: 0.7; }
+        
+        @media (max-width: 1200px) { .metrics-grid { grid-template-columns: repeat(3, 1fr); } .grid-2, .grid-3 { grid-template-columns: 1fr; } .supply-chain-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .metrics-grid { grid-template-columns: repeat(2, 1fr); } }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="brand">
+                <svg class="brand-logo" style="height: 24px; width: auto;" xmlns="http://www.w3.org/2000/svg" viewBox="0 38 96 13" preserveAspectRatio="xMidYMid meet"><defs><clipPath id="c1"><path d="M 39 39 L 45 39 L 45 49 L 39 49 Z" clip-rule="nonzero"/></clipPath><clipPath id="c2"><path d="M 67 39 L 73 39 L 73 49 L 67 49 Z" clip-rule="nonzero"/></clipPath><clipPath id="c3"><path d="M 72 39 L 83 39 L 83 49 L 72 49 Z" clip-rule="nonzero"/></clipPath><clipPath id="c4"><path d="M 82 41 L 96 41 L 96 50 L 82 50 Z" clip-rule="nonzero"/></clipPath><clipPath id="c5"><path d="M 0 39 L 31 39 L 31 49 L 0 49 Z" clip-rule="nonzero"/></clipPath></defs><path fill="#ffffff" d="M 28.355469 44.839844 C 28.355469 42.660156 30.996094 40.941406 34.296875 40.941406 C 37.128906 40.941406 39.460938 42.289062 39.460938 44.539062 C 39.460938 44.742188 39.433594 44.886719 39.410156 45.03125 L 31.570312 45.03125 C 31.691406 45.828125 32.527344 46.355469 33.757812 46.355469 C 34.726562 46.355469 35.515625 46.089844 35.945312 45.550781 L 39.195312 45.550781 C 38.3125 47.210938 36.160156 48.292969 33.507812 48.292969 C 30.566406 48.292969 28.355469 46.765625 28.355469 44.839844 Z M 31.871094 43.851562 L 36.246094 43.851562 C 35.957031 43.179688 35.074219 42.816406 34.117188 42.816406 C 33.160156 42.816406 32.324219 43.179688 31.871094 43.851562 Z M 31.871094 43.851562 " fill-opacity="1" fill-rule="nonzero"/><g clip-path="url(#c1)"><path fill="#ffffff" d="M 41.289062 39.605469 L 44.660156 39.605469 L 42.878906 48.027344 L 39.507812 48.027344 Z M 41.289062 39.605469 " fill-opacity="1" fill-rule="nonzero"/></g><path fill="#ffffff" d="M 55.796875 44.347656 C 55.796875 46.765625 52.964844 48.292969 49.773438 48.292969 C 46.855469 48.292969 44.335938 47.042969 44.335938 44.886719 C 44.335938 42.46875 47.167969 40.941406 50.359375 40.941406 C 53.273438 40.941406 55.796875 42.191406 55.796875 44.347656 Z M 52.535156 44.441406 C 52.535156 43.5625 51.578125 42.988281 50.226562 43 C 48.792969 43 47.597656 43.707031 47.597656 44.792969 C 47.597656 45.671875 48.554688 46.246094 49.894531 46.246094 C 51.339844 46.234375 52.535156 45.527344 52.535156 44.441406 Z M 52.535156 44.441406 " fill-opacity="1" fill-rule="nonzero"/><path fill="#ffffff" d="M 56.453125 44.863281 C 56.453125 42.578125 59.09375 40.941406 62.441406 40.941406 C 65.464844 40.941406 67.617188 42.3125 67.710938 44.25 L 64.582031 44.25 C 64.4375 43.515625 63.53125 42.988281 62.324219 42.988281 C 60.804688 42.988281 59.71875 43.804688 59.71875 44.816406 C 59.71875 45.671875 60.578125 46.246094 61.976562 46.246094 C 63.039062 46.246094 64.101562 45.753906 64.4375 45.054688 L 67.59375 45.054688 C 66.898438 47.113281 64.726562 48.292969 61.761719 48.292969 C 58.796875 48.292969 56.453125 46.910156 56.453125 44.863281 Z M 56.453125 44.863281 " fill-opacity="1" fill-rule="nonzero"/><g clip-path="url(#c2)"><path fill="#ffffff" d="M 69.121094 41.207031 L 72.492188 41.207031 L 71.058594 48.027344 L 67.6875 48.027344 Z M 69.578125 39.0625 L 72.949219 39.0625 L 72.601562 40.664062 L 69.242188 40.664062 Z M 69.578125 39.0625 " fill-opacity="1" fill-rule="nonzero"/></g><g clip-path="url(#c3)"><path fill="#ffffff" d="M 73.210938 41.207031 L 76.03125 41.207031 L 76.355469 39.652344 L 79.652344 39.652344 L 79.328125 41.207031 L 82.796875 41.207031 L 82.390625 43.082031 L 78.933594 43.082031 L 78.492188 45.152344 C 78.480469 45.226562 78.46875 45.296875 78.46875 45.355469 C 78.46875 45.851562 78.886719 46.054688 79.554688 46.054688 L 81.753906 46.054688 L 81.347656 48.027344 L 77.488281 48.027344 C 75.898438 48.027344 75.039062 47.414062 75.039062 46.1875 C 75.039062 45.972656 75.0625 45.730469 75.121094 45.476562 L 75.625 43.082031 L 72.816406 43.082031 Z M 73.210938 41.207031 " fill-opacity="1" fill-rule="nonzero"/></g><g clip-path="url(#c4)"><path fill="#ffffff" d="M 83.25 48.171875 L 85.269531 48.171875 C 85.652344 48.171875 85.949219 48.101562 86.25 47.882812 L 83 41.207031 L 86.464844 41.207031 L 88.390625 45.574219 L 91.902344 41.207031 L 95.464844 41.207031 L 89.273438 48.484375 C 88.328125 49.605469 87.335938 50.230469 85.832031 50.230469 L 82.832031 50.230469 Z M 83.25 48.171875 " fill-opacity="1" fill-rule="nonzero"/></g><g clip-path="url(#c5)"><path fill="#ffffff" d="M 4.917969 48.289062 L 20.425781 48.289062 C 21.800781 48.289062 23.113281 47.703125 24.035156 46.679688 L 30.882812 39.0625 L 13.046875 39.0625 L 10.269531 42.214844 L 7.484375 45.375 L 6.042969 42.214844 L 4.59375 39.0625 L 0.535156 39.0625 Z M 4.917969 48.289062 " fill-opacity="1" fill-rule="nonzero"/></g></svg>
+                <div class="brand-mark"></div>
+                <div>
+                    <span class="brand-text">NXT INFRASTRUCTURE REPORT</span>
+                    <div style="font-size: 0.6rem; color: rgba(255,255,255,0.6);">Executive Intelligence Platform</div>
+                </div>
+            </a>
+            <div class="header-actions">
+                <a href="index.html" class="btn btn-home">Home</a>
+            </div>
+        </div>
+    </header>
+    <nav class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="separator">›</span>
+        <span class="current">Analysis</span>
+        <span class="separator">›</span>
+        <span class="current">Economic Impact</span>
+    </nav>
+    <div class="analysis-nav">
+        <div class="analysis-tabs">
+            <a href="ECONOMIC_IMPACT.html" class="analysis-tab active">Economic Impact</a>
+            <a href="INFRASTRUCTURE_CONSTRAINTS.html" class="analysis-tab">Infrastructure</a>
+            <a href="SUPPLY_CHAIN.html" class="analysis-tab">Supply Chain</a>
+            <a href="POLICY_MONITOR.html" class="analysis-tab">Policy & Risk</a>
+            <a href="COMPETITIVE.html" class="analysis-tab">Competitive</a>
+            <a href="#" class="analysis-tab disabled" style="color: var(--text-muted); pointer-events: none;">Workforce <span style="font-size: 0.6rem; background: var(--border); padding: 0.1rem 0.3rem; border-radius: 3px; margin-left: 0.25rem;">Coming Soon</span></a>
+        </div>
+    </div>
+
+    <main class="main">
+        <div class="page-header">
+            <h1 class="page-title">Economic Impact Dashboard</h1>
+            <p class="page-subtitle">Jobs creation, regional economic effects, and supply chain development across tracked projects</p>
+        </div>
+
+        <div class="summary-banner">
+            <p class="summary-text">
+                Portfolio projects are expected to create <strong>~185,000 direct jobs</strong> when fully operational, plus an estimated <strong>500,000+ construction jobs</strong> during build-out phases. The Semiconductor Industry Association reports that since 2020, CHIPS Act and related investments have driven <strong>$630 billion</strong> across 140 projects in 28 states. Arizona leads with <strong>$97.5 billion</strong> in committed investment and 11,000+ projected jobs from semiconductor projects alone. However, project delays at Intel Ohio and others mean <strong>~40,000 promised jobs</strong> remain unrealized.
+            </p>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-value green">~185K</div>
+                <div class="metric-label">Direct Jobs Announced</div>
+                <div class="metric-detail">When all projects operational</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">500K+</div>
+                <div class="metric-label">Construction Jobs</div>
+                <div class="metric-detail">Peak employment during build</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value green">$1.84T</div>
+                <div class="metric-label">Total Investment</div>
+                <div class="metric-detail">Across 50 tracked projects</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value">28</div>
+                <div class="metric-label">States Impacted</div>
+                <div class="metric-detail">With major project activity</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-value yellow">~40K</div>
+                <div class="metric-label">Jobs Delayed</div>
+                <div class="metric-detail">Due to project slowdowns</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title"> Jobs by Major Project</div>
+            <div class="card">
+                <table class="jobs-table">
+                    <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th style="text-align: right;">Construction Jobs</th>
+                            <th style="text-align: right;">Permanent Jobs</th>
+                            <th style="text-align: right;">Investment</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><div class="project-name"><a href="SE001_TSMC_Arizona_V2.html">TSMC Arizona</a></div><div class="project-loc">Phoenix, AZ</div></td>
+                            <td class="jobs-number construction">10,000 (peak)</td>
+                            <td class="jobs-number permanent">~3,000 of 6,000</td>
+                            <td class="jobs-number">$165B</td>
+                            <td><span class="status-tag hiring">50% hired</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="project-name"><a href="SE010_Intel_Ohio_V2.html">Intel Ohio</a></div><div class="project-loc">New Albany, OH</div></td>
+                            <td class="jobs-number construction">800-900</td>
+                            <td class="jobs-number permanent" style="color: var(--red);">69 of 3,000</td>
+                            <td class="jobs-number">$28B</td>
+                            <td><span class="status-tag delayed">2% hired</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="project-name"><a href="SE009_Samsung_Taylor_V2.html">Samsung Taylor</a></div><div class="project-loc">Taylor, TX</div></td>
+                            <td class="jobs-number construction">8,868</td>
+                            <td class="jobs-number permanent">TBD of 2,000</td>
+                            <td class="jobs-number">$40B</td>
+                            <td><span class="status-tag delayed">Construction</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="project-name"><a href="PH001_Eli_Lilly_LEAP_V2.html">Eli Lilly LEAP</a></div><div class="project-loc">Lebanon, IN</div></td>
+                            <td class="jobs-number construction">4,500 (peak)</td>
+                            <td class="jobs-number permanent">0 of 1,300</td>
+                            <td class="jobs-number">$13.5B</td>
+                            <td><span class="status-tag hiring">On track</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="project-name"><a href="SE008_Micron_NY_V2.html">Micron New York</a></div><div class="project-loc">Clay, NY</div></td>
+                            <td class="jobs-number construction">9,000</td>
+                            <td class="jobs-number permanent">0 of 9,000</td>
+                            <td class="jobs-number">$100B</td>
+                            <td><span class="status-tag planned">Planned</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="project-name"><a href="AU008_Hyundai_Metaplant_GA_V2.html">Hyundai Metaplant GA</a></div><div class="project-loc">Ellabell, GA</div></td>
+                            <td class="jobs-number construction">5,000</td>
+                            <td class="jobs-number permanent" style="color: var(--green);">3,200 of 8,500</td>
+                            <td class="jobs-number">$7.6B</td>
+                            <td><span class="status-tag hiring">38% hired</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="project-name"><a href="AU001_Toyota_NC_Battery_V2.html">Toyota NC Battery</a></div><div class="project-loc">Liberty, NC</div></td>
+                            <td class="jobs-number construction">4,000</td>
+                            <td class="jobs-number permanent">5,000</td>
+                            <td class="jobs-number">$13.9B</td>
+                            <td><span class="status-tag hiring">Hiring</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="project-name"><a href="SE002_Texas_Instruments_Sherman_V2.html">Texas Instruments Sherman</a></div><div class="project-loc">Sherman, TX</div></td>
+                            <td class="jobs-number construction">3,000</td>
+                            <td class="jobs-number permanent">3,000</td>
+                            <td class="jobs-number">$30B</td>
+                            <td><span class="status-tag hiring">Hiring</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="project-name"><a href="DC003_Oracle_Stargate_V2.html">Oracle Stargate</a></div><div class="project-loc">Abilene, TX</div></td>
+                            <td class="jobs-number construction">20,000</td>
+                            <td class="jobs-number permanent">5,000</td>
+                            <td class="jobs-number">$500B</td>
+                            <td><span class="status-tag planned">Planned</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="project-name"><a href="ST002_Steel_Dynamics_Texas_V2.html">Steel Dynamics TX</a></div><div class="project-loc">Sinton, TX</div></td>
+                            <td class="jobs-number construction">1,500</td>
+                            <td class="jobs-number permanent">600</td>
+                            <td class="jobs-number">$2.7B</td>
+                            <td><span class="status-tag hiring">Hiring</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">🏛️ CHIPS Act Funding Tracker</div>
+            <div class="card">
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">The CHIPS and Science Act has awarded <strong>$33+ billion</strong> to semiconductor manufacturers. Final awards were completed in late 2024, with funds disbursed as companies meet project milestones.</p>
+                <div class="chips-tracker">
+                    <div class="chips-row">
+                        <div class="chips-company">Intel</div>
+                        <div class="chips-bar-container"><div class="chips-bar awarded" style="width: 100%;"></div></div>
+                        <div class="chips-amount">$7.86B</div>
+                        <div class="chips-status">Finalized</div>
+                    </div>
+                    <div class="chips-row">
+                        <div class="chips-company">TSMC</div>
+                        <div class="chips-bar-container"><div class="chips-bar awarded" style="width: 84%;"></div></div>
+                        <div class="chips-amount">$6.6B</div>
+                        <div class="chips-status">Finalized</div>
+                    </div>
+                    <div class="chips-row">
+                        <div class="chips-company">Micron</div>
+                        <div class="chips-bar-container"><div class="chips-bar awarded" style="width: 78%;"></div></div>
+                        <div class="chips-amount">$6.17B</div>
+                        <div class="chips-status">Finalized</div>
+                    </div>
+                    <div class="chips-row">
+                        <div class="chips-company">Samsung</div>
+                        <div class="chips-bar-container"><div class="chips-bar awarded" style="width: 60%;"></div></div>
+                        <div class="chips-amount">$4.75B</div>
+                        <div class="chips-status">Finalized</div>
+                    </div>
+                    <div class="chips-row">
+                        <div class="chips-company">Texas Instruments</div>
+                        <div class="chips-bar-container"><div class="chips-bar awarded" style="width: 20%;"></div></div>
+                        <div class="chips-amount">$1.61B</div>
+                        <div class="chips-status">Finalized</div>
+                    </div>
+                    <div class="chips-row">
+                        <div class="chips-company">GlobalFoundries</div>
+                        <div class="chips-bar-container"><div class="chips-bar awarded" style="width: 19%;"></div></div>
+                        <div class="chips-amount">$1.5B</div>
+                        <div class="chips-status">Finalized</div>
+                    </div>
+                    <div class="chips-row">
+                        <div class="chips-company">SK hynix</div>
+                        <div class="chips-bar-container"><div class="chips-bar awarded" style="width: 6%;"></div></div>
+                        <div class="chips-amount">$458M</div>
+                        <div class="chips-status">Finalized</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">🗺️ Regional Economic Impact by State</div>
+            <div class="grid-3">
+                <div class="state-card">
+                    <div class="state-name"><span class="state-flag">🌵</span> Arizona</div>
+                    <div class="state-stats">
+                        <div class="state-stat"><div class="state-stat-value">$97.5B</div><div class="state-stat-label">Investment</div></div>
+                        <div class="state-stat"><div class="state-stat-value">80,000+</div><div class="state-stat-label">Jobs (5yr)</div></div>
+                    </div>
+                    <div class="state-projects">TSMC, Intel (packaging), Amkor • 39 semiconductor companies attracted</div>
+                </div>
+                <div class="state-card">
+                    <div class="state-name"><span class="state-flag">⛺</span> Texas</div>
+                    <div class="state-stats">
+                        <div class="state-stat"><div class="state-stat-value">$580B+</div><div class="state-stat-label">Investment</div></div>
+                        <div class="state-stat"><div class="state-stat-value">35,000+</div><div class="state-stat-label">Jobs</div></div>
+                    </div>
+                    <div class="state-projects">Samsung, TI, Oracle Stargate, Steel Dynamics, Tesla</div>
+                </div>
+                <div class="state-card">
+                    <div class="state-name"><span class="state-flag">🌰</span> Ohio</div>
+                    <div class="state-stats">
+                        <div class="state-stat"><div class="state-stat-value">$28B</div><div class="state-stat-label">Investment</div></div>
+                        <div class="state-stat"><div class="state-stat-value">10,000</div><div class="state-stat-label">Jobs (Delayed)</div></div>
+                    </div>
+                    <div class="state-projects">Intel Ohio One • Currently 1,200 construction workers on site</div>
+                </div>
+                <div class="state-card">
+                    <div class="state-name"><span class="state-flag">🍑</span> Georgia</div>
+                    <div class="state-stats">
+                        <div class="state-stat"><div class="state-stat-value">$20B+</div><div class="state-stat-label">Investment</div></div>
+                        <div class="state-stat"><div class="state-stat-value">15,000+</div><div class="state-stat-label">Jobs</div></div>
+                    </div>
+                    <div class="state-projects">Hyundai Metaplant, SK Battery, Qcells, Rivian (paused)</div>
+                </div>
+                <div class="state-card">
+                    <div class="state-name"><span class="state-flag">🏔️</span> Indiana</div>
+                    <div class="state-stats">
+                        <div class="state-stat"><div class="state-stat-value">$18B+</div><div class="state-stat-label">Investment</div></div>
+                        <div class="state-stat"><div class="state-stat-value">6,000+</div><div class="state-stat-label">Jobs</div></div>
+                    </div>
+                    <div class="state-projects">Eli Lilly LEAP, SK hynix HBM packaging • Tech Hub designation</div>
+                </div>
+                <div class="state-card">
+                    <div class="state-name"><span class="state-flag">🌲</span> New York</div>
+                    <div class="state-stats">
+                        <div class="state-stat"><div class="state-stat-value">$100B</div><div class="state-stat-label">Investment</div></div>
+                        <div class="state-stat"><div class="state-stat-value">9,000+</div><div class="state-stat-label">Jobs</div></div>
+                    </div>
+                    <div class="state-projects">Micron megafab (Clay), GlobalFoundries expansion</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Supply Chain Development</div>
+            <div class="card">
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">Major projects attract supplier ecosystems. TSMC Arizona alone has drawn 39+ semiconductor equipment and materials suppliers to the Phoenix region.</p>
+                <div class="supply-chain-grid">
+                    <div class="supply-item">
+                        <div class="supply-icon"></div>
+                        <div class="supply-label">Equipment Suppliers</div>
+                        <div class="supply-value">140+ companies</div>
+                        <div class="supply-trend">↑ Growing rapidly</div>
+                    </div>
+                    <div class="supply-item">
+                        <div class="supply-icon">🧪</div>
+                        <div class="supply-label">Materials/Chemicals</div>
+                        <div class="supply-value">$37B invested</div>
+                        <div class="supply-trend">↑ New facilities</div>
+                    </div>
+                    <div class="supply-item">
+                        <div class="supply-icon">🎓</div>
+                        <div class="supply-label">Workforce Training</div>
+                        <div class="supply-value">50+ programs</div>
+                        <div class="supply-trend">↑ Expanding</div>
+                    </div>
+                    <div class="supply-item">
+                        <div class="supply-icon">🚚</div>
+                        <div class="supply-label">Logistics Hubs</div>
+                        <div class="supply-value">12 new facilities</div>
+                        <div class="supply-trend">↑ Under construction</div>
+                    </div>
+                </div>
+                <div class="economic-multiplier">
+                    <div class="multiplier-visual">
+                        <div class="multiplier-circle" style="background: var(--deep-indigo);">1</div>
+                        <div class="multiplier-arrow">→</div>
+                        <div class="multiplier-circle" style="background: var(--green);">4.6</div>
+                    </div>
+                    <div class="multiplier-text">
+                        <div class="multiplier-title">Economic Multiplier Effect</div>
+                        <div class="multiplier-desc">Every semiconductor job creates an average of 4.6 additional jobs in the local economy through supplier relationships, service industries, and induced consumer spending. A $1 billion fab investment typically generates $2.5 billion in total regional economic activity.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Geographic Distribution Section -->
+        <div class="section">
+            <div class="section-title">📍 Geographic Distribution</div>
+            <div class="card">
+                <div style="display: grid; grid-template-columns: 1fr 280px; gap: 2rem;">
+                    <!-- Regional Breakdown -->
+                    <div>
+                        <div style="font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem;">Capital by Region</div>
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <div style="width: 100px; font-size: 0.875rem; font-weight: 500;">Southwest</div>
+                                <div style="flex: 1; height: 24px; background: var(--off-white); border-radius: 6px; overflow: hidden;">
+                                    <div style="width: 95%; height: 100%; background: linear-gradient(90deg, var(--deep-indigo), #4f46e5); border-radius: 6px; display: flex; align-items: center; justify-content: flex-end; padding-right: 0.5rem;">
+                                        <span style="font-size: 0.7rem; font-weight: 700; color: white;">$652B</span>
+                                    </div>
+                                </div>
+                                <div style="width: 70px; text-align: right; font-size: 0.8rem; color: var(--text-muted);">12 projects</div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <div style="width: 100px; font-size: 0.875rem; font-weight: 500;">Southeast</div>
+                                <div style="flex: 1; height: 24px; background: var(--off-white); border-radius: 6px; overflow: hidden;">
+                                    <div style="width: 78%; height: 100%; background: linear-gradient(90deg, var(--deep-indigo), #4f46e5); border-radius: 6px; display: flex; align-items: center; justify-content: flex-end; padding-right: 0.5rem;">
+                                        <span style="font-size: 0.7rem; font-weight: 700; color: white;">$198B</span>
+                                    </div>
+                                </div>
+                                <div style="width: 70px; text-align: right; font-size: 0.8rem; color: var(--text-muted);">14 projects</div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <div style="width: 100px; font-size: 0.875rem; font-weight: 500;">West</div>
+                                <div style="flex: 1; height: 24px; background: var(--off-white); border-radius: 6px; overflow: hidden;">
+                                    <div style="width: 72%; height: 100%; background: linear-gradient(90deg, var(--deep-indigo), #4f46e5); border-radius: 6px; display: flex; align-items: center; justify-content: flex-end; padding-right: 0.5rem;">
+                                        <span style="font-size: 0.7rem; font-weight: 700; color: white;">$186B</span>
+                                    </div>
+                                </div>
+                                <div style="width: 70px; text-align: right; font-size: 0.8rem; color: var(--text-muted);">8 projects</div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <div style="width: 100px; font-size: 0.875rem; font-weight: 500;">Midwest</div>
+                                <div style="flex: 1; height: 24px; background: var(--off-white); border-radius: 6px; overflow: hidden;">
+                                    <div style="width: 65%; height: 100%; background: linear-gradient(90deg, var(--deep-indigo), #4f46e5); border-radius: 6px; display: flex; align-items: center; justify-content: flex-end; padding-right: 0.5rem;">
+                                        <span style="font-size: 0.7rem; font-weight: 700; color: white;">$124B</span>
+                                    </div>
+                                </div>
+                                <div style="width: 70px; text-align: right; font-size: 0.8rem; color: var(--text-muted);">11 projects</div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 1rem;">
+                                <div style="width: 100px; font-size: 0.875rem; font-weight: 500;">Northeast</div>
+                                <div style="flex: 1; height: 24px; background: var(--off-white); border-radius: 6px; overflow: hidden;">
+                                    <div style="width: 48%; height: 100%; background: linear-gradient(90deg, var(--deep-indigo), #4f46e5); border-radius: 6px; display: flex; align-items: center; justify-content: flex-end; padding-right: 0.5rem;">
+                                        <span style="font-size: 0.7rem; font-weight: 700; color: white;">$112B</span>
+                                    </div>
+                                </div>
+                                <div style="width: 70px; text-align: right; font-size: 0.8rem; color: var(--text-muted);">5 projects</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Top States -->
+                    <div style="background: var(--off-white); border-radius: 10px; padding: 1.25rem;">
+                        <div style="font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem;">Top States by Capital</div>
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border);">
+                                <div>
+                                    <div style="font-size: 0.9rem; font-weight: 600;">Texas</div>
+                                    <div style="font-size: 0.7rem; color: var(--text-muted);">9 projects</div>
+                                </div>
+                                <div style="font-size: 1.125rem; font-weight: 700; color: var(--deep-indigo);">$584B</div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border);">
+                                <div>
+                                    <div style="font-size: 0.9rem; font-weight: 600;">Arizona</div>
+                                    <div style="font-size: 0.7rem; color: var(--text-muted);">4 projects</div>
+                                </div>
+                                <div style="font-size: 1.125rem; font-weight: 700; color: var(--deep-indigo);">$68B</div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border);">
+                                <div>
+                                    <div style="font-size: 0.9rem; font-weight: 600;">Ohio</div>
+                                    <div style="font-size: 0.7rem; color: var(--text-muted);">5 projects</div>
+                                </div>
+                                <div style="font-size: 1.125rem; font-weight: 700; color: var(--deep-indigo);">$42B</div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <div style="font-size: 0.9rem; font-weight: 600;">Georgia</div>
+                                    <div style="font-size: 0.7rem; color: var(--text-muted);">6 projects</div>
+                                </div>
+                                <div style="font-size: 1.125rem; font-weight: 700; color: var(--deep-indigo);">$38B</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Terminated Project -->
+        <div class="section">
+            <div class="section-title">Project Termination</div>
+            <div style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); border-radius: 12px; padding: 1.5rem; color: white;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div style="background: #FDFF66; color: #1e1b4b; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.7rem; font-weight: 700;">TERMINATED</div>
+                        <div>
+                            <div style="font-weight: 700; font-size: 1.1rem; color: white;">Natron Energy</div>
+                            <div style="font-size: 0.85rem; opacity: 0.8; margin-top: 0.25rem;">Holland, MI | Battery Manufacturing</div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 1.5rem; font-weight: 800; color: #FDFF66;">95</div>
+                        <div style="font-size: 0.7rem; opacity: 0.7;">Jobs Lost</div>
+                    </div>
+                </div>
+                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                    <p style="font-size: 0.85rem; opacity: 0.9; line-height: 1.6; margin: 0;">Sodium-ion battery pioneer ceased all operations September 3, 2025 after Series D funding round unsuccessful. $1.4B Rocky Mount gigafactory cancelled. First portfolio termination in 16 months of tracking. Technology licensed to Clarios for potential future development.</p>
+                </div>
+                <div style="margin-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                    <div style="font-size: 0.7rem; opacity: 0.5;">Ceased: September 2025</div>
+                    <a href="#" onclick="openProjectModal('BT013_Natron_Energy_RAID.html')" style="color: #FDFF66; font-size: 0.75rem; text-decoration: none; font-weight: 600;">View Full RAID Profile →</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title"> Jobs at Risk from Project Delays</div>
+            <div class="card">
+                <table class="jobs-table">
+                    <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th>Original Timeline</th>
+                            <th>Current Status</th>
+                            <th style="text-align: right;">Jobs Delayed</th>
+                            <th>Impact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><div class="project-name"><a href="SE010_Intel_Ohio_V2.html">Intel Ohio</a></div></td>
+                            <td>2025</td>
+                            <td>2030-2031</td>
+                            <td class="jobs-number" style="color: var(--red);">10,000</td>
+                            <td>Construction slowed to 1,200 workers from 8,000 peak target</td>
+                        </tr>
+                        <tr>
+                            <td><div class="project-name"><a href="SE009_Samsung_Taylor_V2.html">Samsung Taylor</a></div></td>
+                            <td>2024</td>
+                            <td>2026+</td>
+                            <td class="jobs-number" style="color: var(--red);">12,000</td>
+                            <td>Workforce reduced 30%, timeline uncertain</td>
+                        </tr>
+                        <tr>
+                            <td><div class="project-name"><a href="AU003_Rivian_Georgia_V2.html">Rivian Georgia</a></div></td>
+                            <td>2024</td>
+                            <td>Paused</td>
+                            <td class="jobs-number" style="color: var(--red);">7,500</td>
+                            <td>Construction halted, capital preservation mode</td>
+                        </tr>
+                        <tr>
+                            <td><div class="project-name"><a href="SE006_Wolfspeed_NC_V2.html">Wolfspeed NC</a></div></td>
+                            <td>2024</td>
+                            <td>Failed</td>
+                            <td class="jobs-number" style="color: var(--red);">1,800</td>
+                            <td>Bankruptcy risk, construction halted</td>
+                        </tr>
+                        <tr>
+                            <td><div class="project-name"><a href="AU005_VinFast_NC_V2.html">VinFast NC</a></div></td>
+                            <td>2025</td>
+                            <td>Scaled Back</td>
+                            <td class="jobs-number" style="color: var(--red);">5,000</td>
+                            <td>Phase 1 only, original 7,500 jobs reduced</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <svg style="height: 20px; width: auto;" xmlns="http://www.w3.org/2000/svg" viewBox="0 38 96 13" preserveAspectRatio="xMidYMid meet"><defs><clipPath id="fc1"><path d="M 39 39 L 45 39 L 45 49 L 39 49 Z" clip-rule="nonzero"/></clipPath><clipPath id="fc2"><path d="M 67 39 L 73 39 L 73 49 L 67 49 Z" clip-rule="nonzero"/></clipPath><clipPath id="fc3"><path d="M 72 39 L 83 39 L 83 49 L 72 49 Z" clip-rule="nonzero"/></clipPath><clipPath id="fc4"><path d="M 82 41 L 96 41 L 96 50 L 82 50 Z" clip-rule="nonzero"/></clipPath><clipPath id="fc5"><path d="M 0 39 L 31 39 L 31 49 L 0 49 Z" clip-rule="nonzero"/></clipPath></defs><path fill="#ffffff" d="M 28.355469 44.839844 C 28.355469 42.660156 30.996094 40.941406 34.296875 40.941406 C 37.128906 40.941406 39.460938 42.289062 39.460938 44.539062 C 39.460938 44.742188 39.433594 44.886719 39.410156 45.03125 L 31.570312 45.03125 C 31.691406 45.828125 32.527344 46.355469 33.757812 46.355469 C 34.726562 46.355469 35.515625 46.089844 35.945312 45.550781 L 39.195312 45.550781 C 38.3125 47.210938 36.160156 48.292969 33.507812 48.292969 C 30.566406 48.292969 28.355469 46.765625 28.355469 44.839844 Z M 31.871094 43.851562 L 36.246094 43.851562 C 35.957031 43.179688 35.074219 42.816406 34.117188 42.816406 C 33.160156 42.816406 32.324219 43.179688 31.871094 43.851562 Z M 31.871094 43.851562 " fill-opacity="1" fill-rule="nonzero"/><g clip-path="url(#fc1)"><path fill="#ffffff" d="M 41.289062 39.605469 L 44.660156 39.605469 L 42.878906 48.027344 L 39.507812 48.027344 Z M 41.289062 39.605469 " fill-opacity="1" fill-rule="nonzero"/></g><path fill="#ffffff" d="M 55.796875 44.347656 C 55.796875 46.765625 52.964844 48.292969 49.773438 48.292969 C 46.855469 48.292969 44.335938 47.042969 44.335938 44.886719 C 44.335938 42.46875 47.167969 40.941406 50.359375 40.941406 C 53.273438 40.941406 55.796875 42.191406 55.796875 44.347656 Z M 52.535156 44.441406 C 52.535156 43.5625 51.578125 42.988281 50.226562 43 C 48.792969 43 47.597656 43.707031 47.597656 44.792969 C 47.597656 45.671875 48.554688 46.246094 49.894531 46.246094 C 51.339844 46.234375 52.535156 45.527344 52.535156 44.441406 Z M 52.535156 44.441406 " fill-opacity="1" fill-rule="nonzero"/><path fill="#ffffff" d="M 56.453125 44.863281 C 56.453125 42.578125 59.09375 40.941406 62.441406 40.941406 C 65.464844 40.941406 67.617188 42.3125 67.710938 44.25 L 64.582031 44.25 C 64.4375 43.515625 63.53125 42.988281 62.324219 42.988281 C 60.804688 42.988281 59.71875 43.804688 59.71875 44.816406 C 59.71875 45.671875 60.578125 46.246094 61.976562 46.246094 C 63.039062 46.246094 64.101562 45.753906 64.4375 45.054688 L 67.59375 45.054688 C 66.898438 47.113281 64.726562 48.292969 61.761719 48.292969 C 58.796875 48.292969 56.453125 46.910156 56.453125 44.863281 Z M 56.453125 44.863281 " fill-opacity="1" fill-rule="nonzero"/><g clip-path="url(#fc2)"><path fill="#ffffff" d="M 69.121094 41.207031 L 72.492188 41.207031 L 71.058594 48.027344 L 67.6875 48.027344 Z M 69.578125 39.0625 L 72.949219 39.0625 L 72.601562 40.664062 L 69.242188 40.664062 Z M 69.578125 39.0625 " fill-opacity="1" fill-rule="nonzero"/></g><g clip-path="url(#fc3)"><path fill="#ffffff" d="M 73.210938 41.207031 L 76.03125 41.207031 L 76.355469 39.652344 L 79.652344 39.652344 L 79.328125 41.207031 L 82.796875 41.207031 L 82.390625 43.082031 L 78.933594 43.082031 L 78.492188 45.152344 C 78.480469 45.226562 78.46875 45.296875 78.46875 45.355469 C 78.46875 45.851562 78.886719 46.054688 79.554688 46.054688 L 81.753906 46.054688 L 81.347656 48.027344 L 77.488281 48.027344 C 75.898438 48.027344 75.039062 47.414062 75.039062 46.1875 C 75.039062 45.972656 75.0625 45.730469 75.121094 45.476562 L 75.625 43.082031 L 72.816406 43.082031 Z M 73.210938 41.207031 " fill-opacity="1" fill-rule="nonzero"/></g><g clip-path="url(#fc4)"><path fill="#ffffff" d="M 83.25 48.171875 L 85.269531 48.171875 C 85.652344 48.171875 85.949219 48.101562 86.25 47.882812 L 83 41.207031 L 86.464844 41.207031 L 88.390625 45.574219 L 91.902344 41.207031 L 95.464844 41.207031 L 89.273438 48.484375 C 88.328125 49.605469 87.335938 50.230469 85.832031 50.230469 L 82.832031 50.230469 Z M 83.25 48.171875 " fill-opacity="1" fill-rule="nonzero"/></g><g clip-path="url(#fc5)"><path fill="#ffffff" d="M 4.917969 48.289062 L 20.425781 48.289062 C 21.800781 48.289062 23.113281 47.703125 24.035156 46.679688 L 30.882812 39.0625 L 13.046875 39.0625 L 10.269531 42.214844 L 7.484375 45.375 L 6.042969 42.214844 L 4.59375 39.0625 L 0.535156 39.0625 Z M 4.917969 48.289062 " fill-opacity="1" fill-rule="nonzero"/></g></svg>
+                <div style="width: 2px; height: 24px; background: var(--electric-yellow); border-radius: 2px;"></div>
+                <span>NXT INFRASTRUCTURE REPORT</span>
+            </div>
+            <span>© 2025 Velocity. All rights reserved.</span>
+        </div>
+    </footer>
+</body>
+</html>

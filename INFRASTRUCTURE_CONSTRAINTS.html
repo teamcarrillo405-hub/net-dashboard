@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infrastructure Constraints | NXT Infrastructure Velocity Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep-indigo: #1e1b4b;
+            --electric-yellow: #FDFF66;
+            --white: #ffffff;
+            --off-white: #f8fafc;
+            --green: #22c55e;
+            --green-bg: rgba(34, 197, 94, 0.1);
+            --yellow: #eab308;
+            --yellow-bg: rgba(234, 179, 8, 0.1);
+            --red: #ef4444;
+            --red-bg: rgba(239, 68, 68, 0.1);
+            --border: #e2e8f0;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--off-white); color: var(--text-primary); line-height: 1.6; }
+        
+        .header { background: var(--deep-indigo); color: #fff; padding: 1rem 2rem; }
+        .header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .brand { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--white); }
+        .brand-mark { width: 6px; height: 28px; background: var(--electric-yellow); }
+        .brand-text { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; }
+        .header-actions { display: flex; gap: 0.5rem; align-items: center; }
+        .btn { padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.8rem; font-weight: 500; text-decoration: none; cursor: pointer; border: none; }
+        .btn-home { background: var(--electric-yellow); color: var(--deep-indigo); }
+        .btn-ghost { background: transparent; color: rgba(255,255,255,0.8); }
+        .btn-ghost:hover { background: rgba(255,255,255,0.1); color: white; }
+        
+        .breadcrumb { max-width: 1400px; margin: 0 auto; padding: 1rem 2rem 0; font-size: 0.8rem; color: var(--text-muted); }
+        .breadcrumb a { color: var(--text-muted); text-decoration: none; }
+        .breadcrumb a:hover { color: var(--deep-indigo); }
+        .breadcrumb .separator { margin: 0 0.5rem; opacity: 0.5; }
+        .breadcrumb .current { font-weight: 500; color: var(--text-primary); }
+        
+        .analysis-nav { max-width: 1400px; margin: 0 auto; padding: 0 2rem; }
+        .analysis-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0.75rem 0; border-bottom: 1px solid var(--border); margin-bottom: 0.5rem; }
+        .analysis-tab { padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.8rem; font-weight: 500; text-decoration: none; color: var(--text-secondary); transition: all 0.2s; }
+        .analysis-tab:hover { background: var(--off-white); color: var(--text-primary); }
+        .analysis-tab.active { background: var(--deep-indigo); color: var(--white); }
+        
+        .main { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+        
+        .page-header { margin-bottom: 2rem; }
+        .page-title { font-size: 1.75rem; font-weight: 700; color: var(--deep-indigo); margin-bottom: 0.5rem; }
+        .page-subtitle { color: var(--text-secondary); }
+        
+        .alert-banner { background: var(--red-bg); border: 1px solid var(--red); border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 2rem; display: flex; align-items: flex-start; gap: 1rem; }
+        .alert-icon { font-size: 1.5rem; }
+        .alert-content { flex: 1; }
+        .alert-title { font-weight: 600; color: var(--red); margin-bottom: 0.25rem; }
+        .alert-text { font-size: 0.9375rem; color: var(--text-primary); }
+        
+        .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+        .metric-card { background: var(--white); border-radius: 12px; padding: 1.5rem; border: 1px solid var(--border); }
+        .metric-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+        .metric-value { font-family: 'JetBrains Mono', monospace; font-size: 1.75rem; font-weight: 700; line-height: 1; margin-bottom: 0.5rem; }
+        .metric-value.green { color: var(--green); }
+        .metric-value.yellow { color: var(--yellow); }
+        .metric-value.red { color: var(--red); }
+        .metric-label { font-size: 0.8125rem; color: var(--text-secondary); margin-bottom: 0.25rem; }
+        .metric-detail { font-size: 0.75rem; color: var(--text-muted); }
+        
+        .section { margin-bottom: 2rem; }
+        .section-title { font-size: 1.125rem; font-weight: 600; color: var(--deep-indigo); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        
+        .card { background: var(--white); border-radius: 12px; padding: 1.5rem; border: 1px solid var(--border); }
+        
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        
+        .grid-region { border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem; }
+        .grid-region-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .grid-region-name { font-weight: 600; font-size: 1rem; }
+        .grid-region-status { padding: 0.25rem 0.625rem; border-radius: 4px; font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; }
+        .grid-region-status.critical { background: var(--red-bg); color: var(--red); }
+        .grid-region-status.constrained { background: var(--yellow-bg); color: #b45309; }
+        .grid-region-status.adequate { background: var(--green-bg); color: var(--green); }
+        .grid-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-bottom: 1rem; }
+        .grid-stat { text-align: center; padding: 0.625rem; background: var(--off-white); border-radius: 6px; }
+        .grid-stat-value { font-size: 1rem; font-weight: 700; }
+        .grid-stat-label { font-size: 0.6875rem; color: var(--text-muted); }
+        .grid-projects { font-size: 0.75rem; color: var(--text-secondary); }
+        .grid-projects strong { color: var(--text-primary); }
+        
+        .queue-timeline { margin-top: 1rem; }
+        .queue-item { display: flex; align-items: center; gap: 1rem; padding: 0.875rem 0; border-bottom: 1px solid var(--border); }
+        .queue-item:last-child { border-bottom: none; }
+        .queue-year { width: 50px; font-weight: 600; font-size: 0.875rem; color: var(--text-muted); }
+        .queue-bar-container { flex: 1; height: 28px; background: var(--off-white); border-radius: 4px; overflow: hidden; }
+        .queue-bar { height: 100%; display: flex; align-items: center; padding-left: 0.75rem; font-size: 0.75rem; font-weight: 500; color: #fff; }
+        .queue-bar.green { background: var(--green); }
+        .queue-bar.yellow { background: var(--yellow); }
+        .queue-bar.red { background: var(--red); }
+        .queue-label { width: 100px; font-size: 0.75rem; color: var(--text-secondary); text-align: right; }
+        
+        .constraint-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+        .constraint-table th { background: var(--off-white); padding: 0.875rem 1rem; text-align: left; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); font-weight: 600; }
+        .constraint-table td { padding: 1rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+        .constraint-table tr:hover { background: rgba(99, 102, 241, 0.03); }
+        .project-name { font-weight: 600; }
+        .project-name a { color: var(--text-primary); text-decoration: none; }
+        .project-loc { font-size: 0.75rem; color: var(--text-muted); }
+        .constraint-tag { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.6875rem; font-weight: 500; margin-right: 0.25rem; margin-bottom: 0.25rem; }
+        .constraint-tag.power { background: #fef3c7; color: #92400e; }
+        .constraint-tag.water { background: #dbeafe; color: #1e40af; }
+        .constraint-tag.labor { background: #fce7f3; color: #9d174d; }
+        .constraint-tag.transport { background: #e0e7ff; color: #3730a3; }
+        .timeline-cell { font-size: 0.8125rem; }
+        .timeline-cell .delay { color: var(--red); font-weight: 500; }
+        
+        .water-card { display: flex; align-items: center; gap: 1.5rem; padding: 1.25rem; background: var(--off-white); border-radius: 8px; margin-bottom: 1rem; }
+        .water-icon { font-size: 2.5rem; }
+        .water-info { flex: 1; }
+        .water-title { font-weight: 600; margin-bottom: 0.25rem; }
+        .water-desc { font-size: 0.875rem; color: var(--text-secondary); }
+        .water-usage { text-align: right; }
+        .water-value { font-size: 1.5rem; font-weight: 700; }
+        .water-label { font-size: 0.75rem; color: var(--text-muted); }
+        
+        .infrastructure-needs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+        .infra-item { text-align: center; padding: 1.25rem; background: var(--off-white); border-radius: 8px; }
+        .infra-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+        .infra-label { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+        .infra-value { font-weight: 600; font-size: 1rem; }
+        .infra-trend { font-size: 0.6875rem; margin-top: 0.25rem; }
+        .infra-trend.negative { color: var(--red); }
+        .infra-trend.positive { color: var(--green); }
+        
+        .footer { background: var(--deep-indigo); color: #fff; padding: 1.5rem 2rem; margin-top: 3rem; }
+        .footer-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; font-size: 0.8125rem; opacity: 0.7; }
+        
+        @media (max-width: 1200px) { .metrics-grid { grid-template-columns: repeat(2, 1fr); } .grid-2, .grid-3 { grid-template-columns: 1fr; } .infrastructure-needs { grid-template-columns: repeat(2, 1fr); } }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="brand">
+                <svg class="brand-logo" style="height: 24px; width: auto;" xmlns="http://www.w3.org/2000/svg" viewBox="0 38 96 13" preserveAspectRatio="xMidYMid meet"><defs><clipPath id="c1"><path d="M 39 39 L 45 39 L 45 49 L 39 49 Z" clip-rule="nonzero"/></clipPath><clipPath id="c2"><path d="M 67 39 L 73 39 L 73 49 L 67 49 Z" clip-rule="nonzero"/></clipPath><clipPath id="c3"><path d="M 72 39 L 83 39 L 83 49 L 72 49 Z" clip-rule="nonzero"/></clipPath><clipPath id="c4"><path d="M 82 41 L 96 41 L 96 50 L 82 50 Z" clip-rule="nonzero"/></clipPath><clipPath id="c5"><path d="M 0 39 L 31 39 L 31 49 L 0 49 Z" clip-rule="nonzero"/></clipPath></defs><path fill="#ffffff" d="M 28.355469 44.839844 C 28.355469 42.660156 30.996094 40.941406 34.296875 40.941406 C 37.128906 40.941406 39.460938 42.289062 39.460938 44.539062 C 39.460938 44.742188 39.433594 44.886719 39.410156 45.03125 L 31.570312 45.03125 C 31.691406 45.828125 32.527344 46.355469 33.757812 46.355469 C 34.726562 46.355469 35.515625 46.089844 35.945312 45.550781 L 39.195312 45.550781 C 38.3125 47.210938 36.160156 48.292969 33.507812 48.292969 C 30.566406 48.292969 28.355469 46.765625 28.355469 44.839844 Z M 31.871094 43.851562 L 36.246094 43.851562 C 35.957031 43.179688 35.074219 42.816406 34.117188 42.816406 C 33.160156 42.816406 32.324219 43.179688 31.871094 43.851562 Z M 31.871094 43.851562 " fill-opacity="1" fill-rule="nonzero"/><g clip-path="url(#c1)"><path fill="#ffffff" d="M 41.289062 39.605469 L 44.660156 39.605469 L 42.878906 48.027344 L 39.507812 48.027344 Z M 41.289062 39.605469 " fill-opacity="1" fill-rule="nonzero"/></g><path fill="#ffffff" d="M 55.796875 44.347656 C 55.796875 46.765625 52.964844 48.292969 49.773438 48.292969 C 46.855469 48.292969 44.335938 47.042969 44.335938 44.886719 C 44.335938 42.46875 47.167969 40.941406 50.359375 40.941406 C 53.273438 40.941406 55.796875 42.191406 55.796875 44.347656 Z M 52.535156 44.441406 C 52.535156 43.5625 51.578125 42.988281 50.226562 43 C 48.792969 43 47.597656 43.707031 47.597656 44.792969 C 47.597656 45.671875 48.554688 46.246094 49.894531 46.246094 C 51.339844 46.234375 52.535156 45.527344 52.535156 44.441406 Z M 52.535156 44.441406 " fill-opacity="1" fill-rule="nonzero"/><path fill="#ffffff" d="M 56.453125 44.863281 C 56.453125 42.578125 59.09375 40.941406 62.441406 40.941406 C 65.464844 40.941406 67.617188 42.3125 67.710938 44.25 L 64.582031 44.25 C 64.4375 43.515625 63.53125 42.988281 62.324219 42.988281 C 60.804688 42.988281 59.71875 43.804688 59.71875 44.816406 C 59.71875 45.671875 60.578125 46.246094 61.976562 46.246094 C 63.039062 46.246094 64.101562 45.753906 64.4375 45.054688 L 67.59375 45.054688 C 66.898438 47.113281 64.726562 48.292969 61.761719 48.292969 C 58.796875 48.292969 56.453125 46.910156 56.453125 44.863281 Z M 56.453125 44.863281 " fill-opacity="1" fill-rule="nonzero"/><g clip-path="url(#c2)"><path fill="#ffffff" d="M 69.121094 41.207031 L 72.492188 41.207031 L 71.058594 48.027344 L 67.6875 48.027344 Z M 69.578125 39.0625 L 72.949219 39.0625 L 72.601562 40.664062 L 69.242188 40.664062 Z M 69.578125 39.0625 " fill-opacity="1" fill-rule="nonzero"/></g><g clip-path="url(#c3)"><path fill="#ffffff" d="M 73.210938 41.207031 L 76.03125 41.207031 L 76.355469 39.652344 L 79.652344 39.652344 L 79.328125 41.207031 L 82.796875 41.207031 L 82.390625 43.082031 L 78.933594 43.082031 L 78.492188 45.152344 C 78.480469 45.226562 78.46875 45.296875 78.46875 45.355469 C 78.46875 45.851562 78.886719 46.054688 79.554688 46.054688 L 81.753906 46.054688 L 81.347656 48.027344 L 77.488281 48.027344 C 75.898438 48.027344 75.039062 47.414062 75.039062 46.1875 C 75.039062 45.972656 75.0625 45.730469 75.121094 45.476562 L 75.625 43.082031 L 72.816406 43.082031 Z M 73.210938 41.207031 " fill-opacity="1" fill-rule="nonzero"/></g><g clip-path="url(#c4)"><path fill="#ffffff" d="M 83.25 48.171875 L 85.269531 48.171875 C 85.652344 48.171875 85.949219 48.101562 86.25 47.882812 L 83 41.207031 L 86.464844 41.207031 L 88.390625 45.574219 L 91.902344 41.207031 L 95.464844 41.207031 L 89.273438 48.484375 C 88.328125 49.605469 87.335938 50.230469 85.832031 50.230469 L 82.832031 50.230469 Z M 83.25 48.171875 " fill-opacity="1" fill-rule="nonzero"/></g><g clip-path="url(#c5)"><path fill="#ffffff" d="M 4.917969 48.289062 L 20.425781 48.289062 C 21.800781 48.289062 23.113281 47.703125 24.035156 46.679688 L 30.882812 39.0625 L 13.046875 39.0625 L 10.269531 42.214844 L 7.484375 45.375 L 6.042969 42.214844 L 4.59375 39.0625 L 0.535156 39.0625 Z M 4.917969 48.289062 " fill-opacity="1" fill-rule="nonzero"/></g></svg>
+                <div class="brand-mark"></div>
+                <div>
+                    <span class="brand-text">NXT INFRASTRUCTURE REPORT</span>
+                    <div style="font-size: 0.6rem; color: rgba(255,255,255,0.6);">Executive Intelligence Platform</div>
+                </div>
+            </a>
+            <div class="header-actions">
+                <a href="index.html" class="btn btn-home">Home</a>
+            </div>
+        </div>
+    </header>
+    <nav class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="separator">›</span>
+        <span class="current">Analysis</span>
+        <span class="separator">›</span>
+        <span class="current">Infrastructure</span>
+    </nav>
+    <div class="analysis-nav">
+        <div class="analysis-tabs">
+            <a href="ECONOMIC_IMPACT.html" class="analysis-tab">Economic Impact</a>
+            <a href="INFRASTRUCTURE_CONSTRAINTS.html" class="analysis-tab active">Infrastructure</a>
+            <a href="SUPPLY_CHAIN.html" class="analysis-tab">Supply Chain</a>
+            <a href="POLICY_MONITOR.html" class="analysis-tab">Policy & Risk</a>
+            <a href="COMPETITIVE.html" class="analysis-tab">Competitive</a>
+            <a href="#" class="analysis-tab disabled" style="color: var(--text-muted); pointer-events: none;">Workforce <span style="font-size: 0.6rem; background: var(--border); padding: 0.1rem 0.3rem; border-radius: 3px; margin-left: 0.25rem;">Coming Soon</span></a>
+        </div>
+    </div>
+
+    <main class="main">
+        <div class="page-header">
+            <h1 class="page-title"> Infrastructure Constraints Dashboard</h1>
+            <p class="page-subtitle">Power grid capacity, interconnection queues, water resources, and supporting infrastructure status</p>
+        </div>
+
+        <div class="alert-banner">
+            <div class="alert-icon"></div>
+            <div class="alert-content">
+                <div class="alert-title">Critical Grid Constraint Alert</div>
+                <div class="alert-text">PJM Interconnection reports capacity market fell <strong>6,625 MW short</strong> of reliability target in December 2025 auction. Data center demand projected to add <strong>32 GW</strong> of load by 2030 while interconnection queue timelines exceed <strong>8 years</strong>. Consumer electricity costs projected to increase <strong>$100 billion</strong> through 2033 due to supply/demand imbalance.</div>
+            </div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-icon"></div>
+                <div class="metric-value red">8+ years</div>
+                <div class="metric-label">Avg. Interconnection Time</div>
+                <div class="metric-detail">PJM queue, up from 2 years in 2008</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon"></div>
+                <div class="metric-value yellow">2,300 GW</div>
+                <div class="metric-label">Queue Capacity</div>
+                <div class="metric-detail">Seeking grid connection nationally</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon"></div>
+                <div class="metric-value">13%</div>
+                <div class="metric-label">Completion Rate</div>
+                <div class="metric-detail">Of queued projects reach operation</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon"></div>
+                <div class="metric-value red">32 GW</div>
+                <div class="metric-label">Data Center Load Growth</div>
+                <div class="metric-detail">PJM projected by 2030</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">🔌 Power Grid Status by Region</div>
+            <div class="grid-3">
+                <div class="grid-region">
+                    <div class="grid-region-header">
+                        <div class="grid-region-name">PJM Interconnection</div>
+                        <div class="grid-region-status critical">Critical</div>
+                    </div>
+                    <div class="grid-stats">
+                        <div class="grid-stat"><div class="grid-stat-value" style="color: var(--red);">8+ yrs</div><div class="grid-stat-label">Queue Time</div></div>
+                        <div class="grid-stat"><div class="grid-stat-value">32 GW</div><div class="grid-stat-label">DC Load Growth</div></div>
+                        <div class="grid-stat"><div class="grid-stat-value">67M</div><div class="grid-stat-label">People Served</div></div>
+                        <div class="grid-stat"><div class="grid-stat-value">13 states</div><div class="grid-stat-label">Coverage</div></div>
+                    </div>
+                    <div class="grid-projects"><strong>Key issues:</strong> Record capacity prices, data center demand outpacing supply, FERC ordering new rules for large load interconnection</div>
+                </div>
+                <div class="grid-region">
+                    <div class="grid-region-header">
+                        <div class="grid-region-name">ERCOT (Texas)</div>
+                        <div class="grid-region-status critical">Critical</div>
+                    </div>
+                    <div class="grid-stats">
+                        <div class="grid-stat"><div class="grid-stat-value" style="color: var(--red);">226 GW</div><div class="grid-stat-label">Queue Capacity</div></div>
+                        <div class="grid-stat"><div class="grid-stat-value">4x</div><div class="grid-stat-label">YoY Growth</div></div>
+                        <div class="grid-stat"><div class="grid-stat-value">77%</div><div class="grid-stat-label">Data Centers</div></div>
+                        <div class="grid-stat"><div class="grid-stat-value">5-7 yrs</div><div class="grid-stat-label">Wait Time</div></div>
+                    </div>
+                    <div class="grid-projects"><strong>Projects:</strong> Samsung Taylor, TI Sherman, Oracle Stargate (1.2 GW behind-meter), CoreWeave Denton (390 MW) • Queue quadrupled from 63 GW in Dec 2024</div>
+                </div>
+                <div class="grid-region">
+                    <div class="grid-region-header">
+                        <div class="grid-region-name">Western (CAISO/APS)</div>
+                        <div class="grid-region-status constrained">Constrained</div>
+                    </div>
+                    <div class="grid-stats">
+                        <div class="grid-stat"><div class="grid-stat-value" style="color: var(--yellow);">4-6 yrs</div><div class="grid-stat-label">Queue Time</div></div>
+                        <div class="grid-stat"><div class="grid-stat-value">High</div><div class="grid-stat-label">Renewable %</div></div>
+                        <div class="grid-stat"><div class="grid-stat-value">45M</div><div class="grid-stat-label">People Served</div></div>
+                        <div class="grid-stat"><div class="grid-stat-value">West</div><div class="grid-stat-label">Coverage</div></div>
+                    </div>
+                    <div class="grid-projects"><strong>Projects:</strong> TSMC Arizona (APS), Intel Chandler • Strong renewable integration, transmission constraints</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title"> Interconnection Queue Timeline Trend</div>
+            <div class="card">
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">Average time from interconnection request to commercial operation has increased significantly. Only 13% of projects that entered queues from 2000-2019 reached commercial operation by end of 2024.</p>
+                <div class="queue-timeline">
+                    <div class="queue-item">
+                        <div class="queue-year">2008</div>
+                        <div class="queue-bar-container"><div class="queue-bar green" style="width: 20%;">~2 years</div></div>
+                        <div class="queue-label">Baseline</div>
+                    </div>
+                    <div class="queue-item">
+                        <div class="queue-year">2015</div>
+                        <div class="queue-bar-container"><div class="queue-bar green" style="width: 35%;">~3.5 years</div></div>
+                        <div class="queue-label">+75%</div>
+                    </div>
+                    <div class="queue-item">
+                        <div class="queue-year">2020</div>
+                        <div class="queue-bar-container"><div class="queue-bar yellow" style="width: 50%;">~5 years</div></div>
+                        <div class="queue-label">+150%</div>
+                    </div>
+                    <div class="queue-item">
+                        <div class="queue-year">2023</div>
+                        <div class="queue-bar-container"><div class="queue-bar yellow" style="width: 70%;">~7 years</div></div>
+                        <div class="queue-label">+250%</div>
+                    </div>
+                    <div class="queue-item">
+                        <div class="queue-year">2025</div>
+                        <div class="queue-bar-container"><div class="queue-bar red" style="width: 85%;">8+ years</div></div>
+                        <div class="queue-label">+300%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">🚧 Projects with Infrastructure Constraints</div>
+            <div class="card">
+                <table class="constraint-table">
+                    <thead>
+                        <tr>
+                            <th>Project</th>
+                            <th>Power Demand</th>
+                            <th>Constraints</th>
+                            <th>Impact on Timeline</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><div class="project-name"><a href="DC007_CoreWeave_Denton_V2.html">CoreWeave Denton</a></div><div class="project-loc">Denton, TX</div></td>
+                            <td>500 MW</td>
+                            <td><span class="constraint-tag power">Grid Queue</span><span class="constraint-tag water">Cooling</span></td>
+                            <td class="timeline-cell"><span class="delay">+18 months</span> for interconnection</td>
+                        </tr>
+                        <tr>
+                            <td><div class="project-name"><a href="DC003_Oracle_Stargate_V2.html">Oracle Stargate</a></div><div class="project-loc">Abilene, TX</div></td>
+                            <td>1+ GW</td>
+                            <td><span class="constraint-tag power">Transmission</span><span class="constraint-tag water">Water Rights</span></td>
+                            <td class="timeline-cell">Phased build to match grid capacity</td>
+                        </tr>
+                        <tr>
+                            <td><div class="project-name"><a href="SE001_TSMC_Arizona_V2.html">TSMC Arizona</a></div><div class="project-loc">Phoenix, AZ</div></td>
+                            <td>~300 MW (6 fabs)</td>
+                            <td><span class="constraint-tag water">Ultra-pure Water</span><span class="constraint-tag labor">Skilled Labor</span></td>
+                            <td class="timeline-cell">APS infrastructure on track, water secured</td>
+                        </tr>
+                        <tr>
+                            <td><div class="project-name"><a href="SE010_Intel_Ohio_V2.html">Intel Ohio</a></div><div class="project-loc">New Albany, OH</div></td>
+                            <td>~200 MW</td>
+                            <td><span class="constraint-tag labor">Workforce</span><span class="constraint-tag transport">Roads</span></td>
+                            <td class="timeline-cell"><span class="delay">Delayed to 2030-31</span></td>
+                        </tr>
+                        <tr>
+                            <td><div class="project-name"><a href="SE008_Micron_NY_V2.html">Micron New York</a></div><div class="project-loc">Clay, NY</div></td>
+                            <td>~250 MW</td>
+                            <td><span class="constraint-tag power">Grid Upgrades</span><span class="constraint-tag water">Treatment</span></td>
+                            <td class="timeline-cell">National Grid investing $500M+</td>
+                        </tr>
+                        <tr>
+                            <td><div class="project-name"><a href="PH001_Eli_Lilly_LEAP_V2.html">Eli Lilly LEAP</a></div><div class="project-loc">Lebanon, IN</div></td>
+                            <td>~100 MW</td>
+                            <td><span class="constraint-tag water">Water Pipeline</span><span class="constraint-tag transport">Roads</span></td>
+                            <td class="timeline-cell">State investing $15M in roads, water from Tippecanoe County</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title"> Water Resource Considerations</div>
+            <div class="card">
+                <div class="water-card">
+                    <div class="water-icon"></div>
+                    <div class="water-info">
+                        <div class="water-title">Semiconductor Fab Water Usage</div>
+                        <div class="water-desc">Advanced chip fabs require ultra-pure water (UPW) for wafer cleaning. A single large fab can use 2-5 million gallons daily, comparable to a small city. TSMC Arizona has secured water rights and built advanced recycling systems.</div>
+                    </div>
+                    <div class="water-usage">
+                        <div class="water-value">2-5M</div>
+                        <div class="water-label">Gallons/day per fab</div>
+                    </div>
+                </div>
+                <div class="water-card">
+                    <div class="water-icon">🌡️</div>
+                    <div class="water-info">
+                        <div class="water-title">Data Center Cooling</div>
+                        <div class="water-desc">Traditional data centers use evaporative cooling requiring significant water. AI data centers with high-density GPU clusters require even more cooling capacity. Some operators shifting to air cooling or liquid-to-chip solutions.</div>
+                    </div>
+                    <div class="water-usage">
+                        <div class="water-value">1-3M</div>
+                        <div class="water-label">Gallons/day (large DC)</div>
+                    </div>
+                </div>
+                <div class="water-card">
+                    <div class="water-icon"></div>
+                    <div class="water-info">
+                        <div class="water-title">Pharmaceutical Manufacturing</div>
+                        <div class="water-desc">API manufacturing requires purified water for production and cleaning. Eli Lilly LEAP project involves controversial plan to pipe water from Tippecanoe County, 25 miles away.</div>
+                    </div>
+                    <div class="water-usage">
+                        <div class="water-value">1-2M</div>
+                        <div class="water-label">Gallons/day</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title"> Supporting Infrastructure Needs</div>
+            <div class="card">
+                <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 1rem;">Major projects require extensive supporting infrastructure beyond the facility itself. Communities must invest in roads, housing, schools, and utilities to support workforce growth.</p>
+                <div class="infrastructure-needs">
+                    <div class="infra-item">
+                        <div class="infra-icon">🛣️</div>
+                        <div class="infra-label">Road Infrastructure</div>
+                        <div class="infra-value">$2.5B+ needed</div>
+                        <div class="infra-trend positive">States investing heavily</div>
+                    </div>
+                    <div class="infra-item">
+                        <div class="infra-icon"></div>
+                        <div class="infra-label">Housing Development</div>
+                        <div class="infra-value">50,000+ units</div>
+                        <div class="infra-trend negative">Lagging demand</div>
+                    </div>
+                    <div class="infra-item">
+                        <div class="infra-icon">🎓</div>
+                        <div class="infra-label">Workforce Training</div>
+                        <div class="infra-value">200+ programs</div>
+                        <div class="infra-trend positive">Expanding rapidly</div>
+                    </div>
+                    <div class="infra-item">
+                        <div class="infra-icon">🏫</div>
+                        <div class="infra-label">Schools/Services</div>
+                        <div class="infra-value">Varies by region</div>
+                        <div class="infra-trend negative">Planning behind</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title"> Regulatory Developments</div>
+            <div class="grid-2">
+                <div class="card">
+                    <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem;">FERC Actions</h3>
+                    <ul style="font-size: 0.875rem; color: var(--text-secondary); padding-left: 1.25rem;">
+                        <li style="margin-bottom: 0.5rem;"><strong>Dec 2025:</strong> Ordered PJM to develop large load colocation rules for data centers</li>
+                        <li style="margin-bottom: 0.5rem;"><strong>Oct 2025:</strong> DOE directed FERC to accelerate data center interconnection rulemaking</li>
+                        <li style="margin-bottom: 0.5rem;"><strong>2024:</strong> Order 2023 reforms being implemented to reduce queue bottlenecks</li>
+                        <li><strong>Ongoing:</strong> Evaluating co-location of generation with large loads</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem;">State Initiatives</h3>
+                    <ul style="font-size: 0.875rem; color: var(--text-secondary); padding-left: 1.25rem;">
+                        <li style="margin-bottom: 0.5rem;"><strong>Texas SB6:</strong> Improves large load interconnection process in ERCOT</li>
+                        <li style="margin-bottom: 0.5rem;"><strong>Arizona:</strong> APS investing $4B+ in transmission for semiconductor corridor</li>
+                        <li style="margin-bottom: 0.5rem;"><strong>Ohio:</strong> 80% of Intel site infrastructure complete despite project delays</li>
+                        <li><strong>Indiana:</strong> $15M road investment, workforce center for LEAP district</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <svg style="height: 20px; width: auto;" xmlns="http://www.w3.org/2000/svg" viewBox="0 38 96 13" preserveAspectRatio="xMidYMid meet"><defs><clipPath id="fc1"><path d="M 39 39 L 45 39 L 45 49 L 39 49 Z" clip-rule="nonzero"/></clipPath><clipPath id="fc2"><path d="M 67 39 L 73 39 L 73 49 L 67 49 Z" clip-rule="nonzero"/></clipPath><clipPath id="fc3"><path d="M 72 39 L 83 39 L 83 49 L 72 49 Z" clip-rule="nonzero"/></clipPath><clipPath id="fc4"><path d="M 82 41 L 96 41 L 96 50 L 82 50 Z" clip-rule="nonzero"/></clipPath><clipPath id="fc5"><path d="M 0 39 L 31 39 L 31 49 L 0 49 Z" clip-rule="nonzero"/></clipPath></defs><path fill="#ffffff" d="M 28.355469 44.839844 C 28.355469 42.660156 30.996094 40.941406 34.296875 40.941406 C 37.128906 40.941406 39.460938 42.289062 39.460938 44.539062 C 39.460938 44.742188 39.433594 44.886719 39.410156 45.03125 L 31.570312 45.03125 C 31.691406 45.828125 32.527344 46.355469 33.757812 46.355469 C 34.726562 46.355469 35.515625 46.089844 35.945312 45.550781 L 39.195312 45.550781 C 38.3125 47.210938 36.160156 48.292969 33.507812 48.292969 C 30.566406 48.292969 28.355469 46.765625 28.355469 44.839844 Z M 31.871094 43.851562 L 36.246094 43.851562 C 35.957031 43.179688 35.074219 42.816406 34.117188 42.816406 C 33.160156 42.816406 32.324219 43.179688 31.871094 43.851562 Z M 31.871094 43.851562 " fill-opacity="1" fill-rule="nonzero"/><g clip-path="url(#fc1)"><path fill="#ffffff" d="M 41.289062 39.605469 L 44.660156 39.605469 L 42.878906 48.027344 L 39.507812 48.027344 Z M 41.289062 39.605469 " fill-opacity="1" fill-rule="nonzero"/></g><path fill="#ffffff" d="M 55.796875 44.347656 C 55.796875 46.765625 52.964844 48.292969 49.773438 48.292969 C 46.855469 48.292969 44.335938 47.042969 44.335938 44.886719 C 44.335938 42.46875 47.167969 40.941406 50.359375 40.941406 C 53.273438 40.941406 55.796875 42.191406 55.796875 44.347656 Z M 52.535156 44.441406 C 52.535156 43.5625 51.578125 42.988281 50.226562 43 C 48.792969 43 47.597656 43.707031 47.597656 44.792969 C 47.597656 45.671875 48.554688 46.246094 49.894531 46.246094 C 51.339844 46.234375 52.535156 45.527344 52.535156 44.441406 Z M 52.535156 44.441406 " fill-opacity="1" fill-rule="nonzero"/><path fill="#ffffff" d="M 56.453125 44.863281 C 56.453125 42.578125 59.09375 40.941406 62.441406 40.941406 C 65.464844 40.941406 67.617188 42.3125 67.710938 44.25 L 64.582031 44.25 C 64.4375 43.515625 63.53125 42.988281 62.324219 42.988281 C 60.804688 42.988281 59.71875 43.804688 59.71875 44.816406 C 59.71875 45.671875 60.578125 46.246094 61.976562 46.246094 C 63.039062 46.246094 64.101562 45.753906 64.4375 45.054688 L 67.59375 45.054688 C 66.898438 47.113281 64.726562 48.292969 61.761719 48.292969 C 58.796875 48.292969 56.453125 46.910156 56.453125 44.863281 Z M 56.453125 44.863281 " fill-opacity="1" fill-rule="nonzero"/><g clip-path="url(#fc2)"><path fill="#ffffff" d="M 69.121094 41.207031 L 72.492188 41.207031 L 71.058594 48.027344 L 67.6875 48.027344 Z M 69.578125 39.0625 L 72.949219 39.0625 L 72.601562 40.664062 L 69.242188 40.664062 Z M 69.578125 39.0625 " fill-opacity="1" fill-rule="nonzero"/></g><g clip-path="url(#fc3)"><path fill="#ffffff" d="M 73.210938 41.207031 L 76.03125 41.207031 L 76.355469 39.652344 L 79.652344 39.652344 L 79.328125 41.207031 L 82.796875 41.207031 L 82.390625 43.082031 L 78.933594 43.082031 L 78.492188 45.152344 C 78.480469 45.226562 78.46875 45.296875 78.46875 45.355469 C 78.46875 45.851562 78.886719 46.054688 79.554688 46.054688 L 81.753906 46.054688 L 81.347656 48.027344 L 77.488281 48.027344 C 75.898438 48.027344 75.039062 47.414062 75.039062 46.1875 C 75.039062 45.972656 75.0625 45.730469 75.121094 45.476562 L 75.625 43.082031 L 72.816406 43.082031 Z M 73.210938 41.207031 " fill-opacity="1" fill-rule="nonzero"/></g><g clip-path="url(#fc4)"><path fill="#ffffff" d="M 83.25 48.171875 L 85.269531 48.171875 C 85.652344 48.171875 85.949219 48.101562 86.25 47.882812 L 83 41.207031 L 86.464844 41.207031 L 88.390625 45.574219 L 91.902344 41.207031 L 95.464844 41.207031 L 89.273438 48.484375 C 88.328125 49.605469 87.335938 50.230469 85.832031 50.230469 L 82.832031 50.230469 Z M 83.25 48.171875 " fill-opacity="1" fill-rule="nonzero"/></g><g clip-path="url(#fc5)"><path fill="#ffffff" d="M 4.917969 48.289062 L 20.425781 48.289062 C 21.800781 48.289062 23.113281 47.703125 24.035156 46.679688 L 30.882812 39.0625 L 13.046875 39.0625 L 10.269531 42.214844 L 7.484375 45.375 L 6.042969 42.214844 L 4.59375 39.0625 L 0.535156 39.0625 Z M 4.917969 48.289062 " fill-opacity="1" fill-rule="nonzero"/></g></svg>
+                <div style="width: 2px; height: 24px; background: var(--electric-yellow); border-radius: 2px;"></div>
+                <span>NXT INFRASTRUCTURE REPORT</span>
+            </div>
+            <span>© 2025 Velocity. All rights reserved.</span>
+        </div>
+    </footer>
+</body>
+</html>
