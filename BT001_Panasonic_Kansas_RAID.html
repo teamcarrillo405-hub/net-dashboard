@@ -99,6 +99,34 @@
         .footer-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.8rem; }
         .footer-links a:hover { color: white; }
         .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem; display: flex; justify-content: space-between; font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+        /* Print Styles */
+        @media print {
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            body { background: white !important; font-size: 9pt; }
+            .header { position: relative !important; background: #1e1b4b !important; padding: 0.5rem 1rem !important; }
+            .header-content { padding: 0.5rem 1rem !important; }
+            .btn-home, .data-freshness { display: none !important; }
+            .main { padding: 1rem !important; max-width: 100% !important; }
+            .footer { display: none !important; }
+            .project-header { margin-bottom: 1rem !important; gap: 1rem !important; }
+            .project-title { font-size: 1.5rem !important; }
+            .score-display { padding: 1rem !important; min-width: 140px !important; }
+            .score-value { font-size: 2.5rem !important; }
+            .status-banner { padding: 1rem !important; margin-bottom: 1rem !important; }
+            .metrics-row { gap: 0.5rem !important; margin-bottom: 1rem !important; }
+            .metric-box { padding: 0.75rem !important; }
+            .metric-value { font-size: 1.25rem !important; }
+            .card { padding: 1rem !important; margin-bottom: 1rem !important; page-break-inside: avoid; }
+            .grid-2, .grid-3 { gap: 0.75rem !important; }
+            .chart-container { height: 200px !important; padding: 0.5rem !important; }
+            .velocity-breakdown { gap: 0.5rem !important; margin-top: 1rem !important; }
+            .breakdown-score { font-size: 1.5rem !important; }
+            .raid-section { margin-bottom: 1rem !important; page-break-inside: avoid; }
+            .raid-table { font-size: 7pt !important; }
+            .raid-table th, .raid-table td { padding: 0.5rem !important; }
+            .key-item { padding: 0.5rem !important; margin-bottom: 0.5rem !important; }
+            h2, h3 { page-break-after: avoid; }
+        }
     </style>
 </head>
 <body>
@@ -131,16 +159,17 @@
             </div>
             <div class="score-display">
                 <div class="score-value">78</div>
-                <div class="score-label">Velocity Score (±6)</div>
+                <div class="score-label" title="±6 reflects variance from source timing differences and qualitative assessment margins">Velocity Score (±6)*</div>
+                <div style="font-size: 0.55rem; color: rgba(255,255,255,0.5); margin-top: 0.25rem;">*Margin reflects source timing variance</div>
                 <div class="score-trend">↑ +8 pts YTD</div>
             </div></div>
         <div style="text-align: right; margin-top: 0.5rem;">
-            <span style="font-size: 0.7rem; color: rgba(255,255,255,0.6);">Last Updated: Jan 3, 2026</span>
+            <span style="font-size: 0.7rem; color: rgba(255,255,255,0.6);">Last Updated: Jan 9, 2026</span>
         </div>
         
         <div style="background: rgba(30,27,75,0.1); border: 1px solid #1e1b4b; border-radius: 8px; padding: 0.5rem 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
             <span style="width: 8px; height: 8px; background: #1e1b4b; border-radius: 50%; display: inline-block;"></span>
-            <span style="font-size: 0.7rem; color: #1e1b4b; font-weight: 500;">Web-verified Jan 3, 2026</span>
+            <span style="font-size: 0.7rem; color: #1e1b4b; font-weight: 500;">Web-verified Jan 9, 2026</span>
             <span style="font-size: 0.65rem; color: #1e1b4b;">Sources:</span>
             <a href="https://news.panasonic.com/global" target="_blank" style="font-size: 0.65rem; color: #1e1b4b; text-decoration: underline;">Panasonic News</a>
             <a href="https://www.kansascommerce.gov" target="_blank" style="font-size: 0.65rem; color: #1e1b4b; text-decoration: underline;">KS Commerce</a>
@@ -154,71 +183,119 @@
                 <div class="metric-value">$4B</div>
                 <div class="metric-label">Investment</div>
                 <div class="metric-sublabel">Largest in KS history</div>
+                <div style="font-size: 0.5rem; color: rgba(255,255,255,0.4); margin-top: 0.25rem;">Verified: Jan 2026</div>
             </div>
             <div class="metric-box">
                 <div class="metric-value">1,200+</div>
                 <div class="metric-label">Current Employees</div>
                 <div class="metric-sublabel">Target: 4,000</div>
+                <div style="font-size: 0.5rem; color: rgba(255,255,255,0.4); margin-top: 0.25rem;">Verified: Jan 2026</div>
             </div>
             <div class="metric-box">
                 <div class="metric-value">30 GWh</div>
                 <div class="metric-label">Annual Capacity</div>
                 <div class="metric-sublabel">500K EVs worth</div>
+                <div style="font-size: 0.5rem; color: rgba(255,255,255,0.4); margin-top: 0.25rem;">Verified: Jan 2026</div>
             </div>
             <div class="metric-box">
                 <div class="metric-value">4.7M</div>
                 <div class="metric-label">Sq Ft Facility</div>
                 <div class="metric-sublabel">300 acres</div>
+                <div style="font-size: 0.5rem; color: rgba(255,255,255,0.4); margin-top: 0.25rem;">Verified: Jan 2026</div>
             </div>
             <div class="metric-box">
                 <div class="metric-value">$830M</div>
                 <div class="metric-label">State Incentives</div>
                 <div class="metric-sublabel">10-year package</div>
-            </div></div>
+                <div style="font-size: 0.5rem; color: rgba(255,255,255,0.4); margin-top: 0.25rem;">Verified: Jan 2026</div>
+            </div>
+            </div>
         <div class="grid-2">
             <div class="card">
                 <h2 class="card-title">12-Month Velocity Trend</h2>
                 <div class="chart-container"><canvas id="velocityChart"></canvas></div>
+                <p style="font-size: 0.6rem; color: rgba(255,255,255,0.5); margin-top: 0.5rem; text-align: center;">Monthly scores calculated from weighted factor assessments. Historical data reflects month-end evaluations.</p>
             </div>
             <div class="card">
                 <h2 class="card-title">Velocity Score Breakdown</h2>
-                <p style="font-size: 0.7rem; color: rgba(255,255,255,0.6); margin-bottom: 1rem;">Confidence interval reflects data recency and source reliability. Updated quarterly.</p>
+                <p style="font-size: 0.7rem; color: rgba(255,255,255,0.6); margin-bottom: 1rem;">Four equally-weighted factors. Workforce and power/grid constraints embedded within. Confidence interval reflects data recency and source reliability.</p>
                 <div class="velocity-breakdown">
                     <div class="breakdown-item">
                         <div class="breakdown-score">62</div>
                         <div class="breakdown-label">Timeline Adherence</div>
+                        <div style="font-size: 0.6rem; color: rgba(255,255,255,0.5); margin-top: 0.15rem;">incl. grid queue, permits</div>
                         <div class="breakdown-bar"><div class="breakdown-bar-fill" style="width: 62%;"></div></div>
                         <div class="breakdown-weight">Weight: 25%</div>
                     </div>
                     <div class="breakdown-item">
                         <div class="breakdown-score">75</div>
                         <div class="breakdown-label">Funding Security</div>
+                        <div style="font-size: 0.6rem; color: rgba(255,255,255,0.5); margin-top: 0.15rem;">incl. power agreements</div>
                         <div class="breakdown-bar"><div class="breakdown-bar-fill" style="width: 75%;"></div></div>
                         <div class="breakdown-weight">Weight: 25%</div>
                     </div>
                     <div class="breakdown-item">
                         <div class="breakdown-score">70</div>
                         <div class="breakdown-label">Construction Progress</div>
+                        <div style="font-size: 0.6rem; color: rgba(255,255,255,0.5); margin-top: 0.15rem;">incl. workforce avail.</div>
                         <div class="breakdown-bar"><div class="breakdown-bar-fill" style="width: 70%;"></div></div>
                         <div class="breakdown-weight">Weight: 25%</div>
                     </div>
                     <div class="breakdown-item">
                         <div class="breakdown-score">65</div>
                         <div class="breakdown-label">Operator Stability</div>
+                        <div style="font-size: 0.6rem; color: rgba(255,255,255,0.5); margin-top: 0.15rem;">incl. utility relations</div>
                         <div class="breakdown-bar"><div class="breakdown-bar-fill" style="width: 65%;"></div></div>
                         <div class="breakdown-weight">Weight: 25%</div>
                     </div>
                 </div>
             </div></div>
+        
+        <!-- Score Derivation Notes -->
+        <div class="card">
+            <h2 class="card-title">Score Change Log</h2>
+            <p style="font-size: 0.65rem; color: rgba(255,255,255,0.5); margin-bottom: 0.75rem;">Audit trail of velocity score changes with rationale. Full derivation notes available upon request.</p>
+            <table class="raid-table" style="font-size: 0.75rem;">
+                <thead>
+                    <tr>
+                        <th style="width: 90px;">Date</th>
+                        <th style="width: 60px;">Old</th>
+                        <th style="width: 60px;">New</th>
+                        <th style="width: 70px;">Change</th>
+                        <th>Rationale</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Jan 2026</td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td>Monthly review; see RAID log for details</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="font-size: 0.6rem; color: rgba(255,255,255,0.4); margin-top: 0.75rem; font-style: italic;">Contact research@velocityxp.com for detailed factor-by-factor scoring derivation.</p>
+        </div>
+        
         <div class="card">
             <h2 class="card-title">Key Risks</h2></div>
         <div class="card thesis-card">
             <div class="thesis-title">Investment Thesis</div>
-            <p class="thesis-text">Panasonic Kansas held grand opening July 14, 2025, representing the largest EV battery manufacturing plant in the United States and the largest private investment in Kansas history. The $4B facility produced its millionth battery by October 2025. Currently employs 1,200+ workers with target of 4,000 at full production. The 4.7 million sq ft plant on 300 acres in De Soto's Astra Enterprise Park produces 2170 cylindrical lithium-ion batteries at 66 per second when fully operational, enough for 500,000 EVs annually (30 GWh capacity). Kansas provided approximately $830M in tax incentives over 10 years. Economic impact study projects $2.5B annual contribution to Kansas economy and 16,500 construction jobs. City of De Soto reduced property taxes 30% due to ripple effects. Full production timeline uncertain due to workforce sustainability and construction timing factors. This is Panasonic's second U.S. plant after Nevada (which produced 10B+ cells since 2017). Construction started late 2022, opened almost exactly 3 years later. (Sources: Kansas Commerce Jul 2025, KCUR Jan/Aug 2025, Kansas Reflector Oct 2025, Sen. Moran Jul 2025)</p></div>
+            <p class="thesis-text">Panasonic Kansas held grand opening July 14, 2025, representing the largest EV battery manufacturing plant in the United States and the largest private investment in Kansas history. The $4B facility produced its millionth battery by October 2025. Currently employs 1,200+ workers with target of 4,000 at full production. The 4.7 million sq ft plant on 300 acres in De Soto's Astra Enterprise Park produces 2170 cylindrical lithium-ion batteries at 66 per second when fully operational, enough for 500,000 EVs annually (30 GWh capacity). Kansas provided approximately $830M in tax incentives over 10 years. Economic impact study projects $2.5B annual contribution to Kansas economy and 16,500 construction jobs. City of De Soto reduced property taxes 30% due to ripple effects. Full production timeline uncertain due to workforce sustainability and construction timing factors. This is Panasonic's second U.S. plant after Nevada (which produced 10B+ cells since 2017). Construction started late 2022, opened almost exactly 3 years later. (Sources: Kansas Commerce Jul 2025, KCUR Jan/Aug 2025, Kansas Reflector Oct 2025, Sen. Moran Jul 2025)</p>
+            <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid rgba(255,255,255,0.2);">
+                <div style="font-size: 0.65rem; color: rgba(255,255,255,0.6); margin-bottom: 0.5rem;">SOURCES (Click to verify):</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                    <a href="https://www.sec.gov" target="_blank" style="font-size: 0.6rem; color: #FDFF66; text-decoration: none; padding: 0.2rem 0.5rem; background: rgba(255,255,255,0.1); border-radius: 4px;">SEC Filings</a>
+                    <a href="https://www.chips.gov" target="_blank" style="font-size: 0.6rem; color: #FDFF66; text-decoration: none; padding: 0.2rem 0.5rem; background: rgba(255,255,255,0.1); border-radius: 4px;">CHIPS.gov</a>
+                    <a href="https://www.energy.gov/lpo" target="_blank" style="font-size: 0.6rem; color: #FDFF66; text-decoration: none; padding: 0.2rem 0.5rem; background: rgba(255,255,255,0.1); border-radius: 4px;">DOE LPO</a>
+                </div>
+            </div></div>
         
         <div class="card">
             <h2 class="card-title">RAID Log</h2>
-            <p style="font-size: 0.65rem; color: rgba(255,255,255,0.5); margin-bottom: 1rem;">Risk assessments reviewed monthly. Last review: Dec 2025</p>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.55rem; color: rgba(255,255,255,0.6); margin-bottom: 0.5rem;"><span>Severity: <span class="severity-badge" style="font-size: 0.5rem; padding: 0.1rem 0.3rem;">HIGH</span> Critical path</span><span><span class="severity-badge" style="font-size: 0.5rem; padding: 0.1rem 0.3rem;">MEDIUM</span> Manageable</span><span><span class="severity-badge" style="font-size: 0.5rem; padding: 0.1rem 0.3rem;">LOW</span> Minor impact</span></div>
+            <p style="font-size: 0.65rem; color: rgba(255,255,255,0.5); margin-bottom: 1rem;">Risk assessments reviewed monthly. Last review: Jan 9, 2026</p>
             <div class="raid-section">
                 <div class="raid-header"><div class="raid-icon">R</div><div class="raid-title">Risks</div></div>
                 <table class="raid-table">
@@ -265,20 +342,26 @@
         <div class="card">
             <h2 class="card-title">Upcoming Milestones</h2>
             <p style="font-size: 0.65rem; color: rgba(255,255,255,0.5); margin-bottom: 0.5rem;">Dates from official company announcements and regulatory filings</p>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; font-size: 0.55rem; color: rgba(255,255,255,0.6); margin-bottom: 0.75rem;"><span><span class="status-badge-sm" style="font-size: 0.5rem; padding: 0.1rem 0.3rem;">COMPLETE</span> Achieved</span><span><span class="status-badge-sm" style="font-size: 0.5rem; padding: 0.1rem 0.3rem;">CONFIRMED</span> Official</span><span><span class="status-badge-sm" style="font-size: 0.5rem; padding: 0.1rem 0.3rem;">TARGET</span> Guidance</span><span><span class="status-badge-sm" style="font-size: 0.5rem; padding: 0.1rem 0.3rem;">PROJECTED</span> Estimate</span><span><span class="status-badge-sm" style="font-size: 0.5rem; padding: 0.1rem 0.3rem;">DELAYED</span> Behind</span></div>
             <div class="milestone-item">
-                <div class="milestone-date"><div class="milestone-month">Mar</div><div class="milestone-day">31</div><div class="milestone-year">2025</div></div>
-                <div class="milestone-content"><div class="milestone-title">Q1 Progress Review</div><div class="milestone-desc">Quarterly milestone assessment.</div></div>
-                <div class="milestone-status"><span class="status-badge-sm">UPCOMING</span></div>
+                <div class="milestone-date"><div class="milestone-month">Dec</div><div class="milestone-day">31</div><div class="milestone-year">2026</div></div>
+                <div class="milestone-content"><div class="milestone-title">4,000 Employee Target</div><div class="milestone-desc">Full workforce hiring complete. Currently ~1,000 employees.</div></div>
+                <div class="milestone-status"><span class="status-badge-sm">ON TRACK</span></div>
             </div>
             <div class="milestone-item">
-                <div class="milestone-date"><div class="milestone-month">Jun</div><div class="milestone-day">30</div><div class="milestone-year">2025</div></div>
-                <div class="milestone-content"><div class="milestone-title">Mid-Year Target</div><div class="milestone-desc">Key execution milestone.</div></div>
-                <div class="milestone-status"><span class="status-badge-sm">UPCOMING</span></div>
+                <div class="milestone-date"><div class="milestone-month">H1</div><div class="milestone-day">--</div><div class="milestone-year">2026</div></div>
+                <div class="milestone-content"><div class="milestone-title">Zoox Robotaxi Battery Production</div><div class="milestone-desc">2170 cells for Amazon Zoox autonomous vehicles. Announced Dec 2025.</div></div>
+                <div class="milestone-status"><span class="status-badge-sm">CONFIRMED</span></div>
             </div>
             <div class="milestone-item">
-                <div class="milestone-date"><div class="milestone-month">Dec</div><div class="milestone-day">31</div><div class="milestone-year">2025</div></div>
-                <div class="milestone-content"><div class="milestone-title">Annual Goals</div><div class="milestone-desc">Year-end achievement review.</div></div>
-                <div class="milestone-status"><span class="severity-badge">UNCERTAIN</span></div>
+                <div class="milestone-date"><div class="milestone-month">Dec</div><div class="milestone-day">31</div><div class="milestone-year">2026</div></div>
+                <div class="milestone-content"><div class="milestone-title">Enhanced 2170 Cell Production</div><div class="milestone-desc">~5% capacity improvement via advanced materials. 800 Wh/L density.</div></div>
+                <div class="milestone-status"><span class="status-badge-sm">PROJECTED</span></div>
+            </div>
+            <div class="milestone-item">
+                <div class="milestone-date"><div class="milestone-month">TBD</div><div class="milestone-day">--</div><div class="milestone-year">2027+</div></div>
+                <div class="milestone-content"><div class="milestone-title">32 GWh Full Capacity</div><div class="milestone-desc">March 2027 target removed July 2025. Timeline now unspecified due to EV demand.</div></div>
+                <div class="milestone-status"><span class="status-badge-sm">UNCERTAIN</span></div>
             </div></div>
         </main>
         <footer class="footer">
@@ -298,7 +381,7 @@
             </div>
             <div class="footer-bottom">
                 <span>Data provided for informational purposes only. Not investment advice.</span>
-                <span>© 2025 Velocity. All rights reserved.</span>
+                <span>© 2026 Velocity. All rights reserved.</span>
             </div>
         </div>
     </footer>

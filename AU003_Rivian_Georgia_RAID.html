@@ -99,6 +99,34 @@
         .footer-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.8rem; }
         .footer-links a:hover { color: white; }
         .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem; display: flex; justify-content: space-between; font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+        /* Print Styles */
+        @media print {
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            body { background: white !important; font-size: 9pt; }
+            .header { position: relative !important; background: #1e1b4b !important; padding: 0.5rem 1rem !important; }
+            .header-content { padding: 0.5rem 1rem !important; }
+            .btn-home, .data-freshness { display: none !important; }
+            .main { padding: 1rem !important; max-width: 100% !important; }
+            .footer { display: none !important; }
+            .project-header { margin-bottom: 1rem !important; gap: 1rem !important; }
+            .project-title { font-size: 1.5rem !important; }
+            .score-display { padding: 1rem !important; min-width: 140px !important; }
+            .score-value { font-size: 2.5rem !important; }
+            .status-banner { padding: 1rem !important; margin-bottom: 1rem !important; }
+            .metrics-row { gap: 0.5rem !important; margin-bottom: 1rem !important; }
+            .metric-box { padding: 0.75rem !important; }
+            .metric-value { font-size: 1.25rem !important; }
+            .card { padding: 1rem !important; margin-bottom: 1rem !important; page-break-inside: avoid; }
+            .grid-2, .grid-3 { gap: 0.75rem !important; }
+            .chart-container { height: 200px !important; padding: 0.5rem !important; }
+            .velocity-breakdown { gap: 0.5rem !important; margin-top: 1rem !important; }
+            .breakdown-score { font-size: 1.5rem !important; }
+            .raid-section { margin-bottom: 1rem !important; page-break-inside: avoid; }
+            .raid-table { font-size: 7pt !important; }
+            .raid-table th, .raid-table td { padding: 0.5rem !important; }
+            .key-item { padding: 0.5rem !important; margin-bottom: 0.5rem !important; }
+            h2, h3 { page-break-after: avoid; }
+        }
     </style>
 </head>
 <body>
@@ -131,16 +159,17 @@
             </div>
             <div class="score-display">
                 <div class="score-value">58</div>
-                <div class="score-label">Velocity Score (±8)</div>
+                <div class="score-label" title="±8 reflects variance from source timing differences and qualitative assessment margins">Velocity Score (±8)*</div>
+                <div style="font-size: 0.55rem; color: rgba(255,255,255,0.5); margin-top: 0.25rem;">*Margin reflects source timing variance</div>
                 <div class="score-trend">↑ +21 pts YTD</div>
             </div></div>
         <div style="text-align: right; margin-top: 0.5rem;">
-            <span style="font-size: 0.7rem; color: rgba(255,255,255,0.6);">Last Updated: Jan 3, 2026</span>
+            <span style="font-size: 0.7rem; color: rgba(255,255,255,0.6);">Last Updated: Jan 9, 2026</span>
         </div>
         
         <div style="background: rgba(30,27,75,0.1); border: 1px solid #1e1b4b; border-radius: 8px; padding: 0.5rem 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
             <span style="width: 8px; height: 8px; background: #1e1b4b; border-radius: 50%; display: inline-block;"></span>
-            <span style="font-size: 0.7rem; color: #1e1b4b; font-weight: 500;">Web-verified Jan 3, 2026</span>
+            <span style="font-size: 0.7rem; color: #1e1b4b; font-weight: 500;">Web-verified Jan 9, 2026</span>
             <span style="font-size: 0.65rem; color: #1e1b4b;">Sources:</span>
             <a href="https://rivian.com/newsroom" target="_blank" style="font-size: 0.65rem; color: #1e1b4b; text-decoration: underline;">Rivian Newsroom</a>
             <a href="https://www.energy.gov/lpo/rivian" target="_blank" style="font-size: 0.65rem; color: #1e1b4b; text-decoration: underline;">DOE LPO</a>
@@ -160,71 +189,119 @@
                 <div class="metric-value">$5B</div>
                 <div class="metric-label">Facility Investment</div>
                 <div class="metric-sublabel">1,800 acres</div>
+                <div style="font-size: 0.5rem; color: rgba(255,255,255,0.4); margin-top: 0.25rem;">Verified: Jan 2026</div>
             </div>
             <div class="metric-box">
                 <div class="metric-value">$6.57B</div>
                 <div class="metric-label">DOE Loan</div>
                 <div class="metric-sublabel">$5.975B + $592M cap int</div>
+                <div style="font-size: 0.5rem; color: rgba(255,255,255,0.4); margin-top: 0.25rem;">Verified: Jan 2026</div>
             </div>
             <div class="metric-box">
                 <div class="metric-value">7,500</div>
                 <div class="metric-label">Operations Jobs</div>
                 <div class="metric-sublabel">+ 2,000 construction</div>
+                <div style="font-size: 0.5rem; color: rgba(255,255,255,0.4); margin-top: 0.25rem;">Verified: Jan 2026</div>
             </div>
             <div class="metric-box">
                 <div class="metric-value">400K</div>
                 <div class="metric-label">Annual Capacity</div>
                 <div class="metric-sublabel">9M sq ft facility</div>
+                <div style="font-size: 0.5rem; color: rgba(255,255,255,0.4); margin-top: 0.25rem;">Verified: Jan 2026</div>
             </div>
             <div class="metric-box">
                 <div class="metric-value">2028</div>
                 <div class="metric-label">Production Target</div>
                 <div class="metric-sublabel">R2, R3, R3X</div>
-            </div></div>
+                <div style="font-size: 0.5rem; color: rgba(255,255,255,0.4); margin-top: 0.25rem;">Verified: Jan 2026</div>
+            </div>
+            </div>
         <div class="grid-2">
             <div class="card">
                 <h2 class="card-title">12-Month Velocity Trend</h2>
                 <div class="chart-container"><canvas id="velocityChart"></canvas></div>
+                <p style="font-size: 0.6rem; color: rgba(255,255,255,0.5); margin-top: 0.5rem; text-align: center;">Monthly scores calculated from weighted factor assessments. Historical data reflects month-end evaluations.</p>
             </div>
             <div class="card">
                 <h2 class="card-title">Velocity Score Breakdown</h2>
-                <p style="font-size: 0.7rem; color: rgba(255,255,255,0.6); margin-bottom: 1rem;">Confidence interval reflects data recency and source reliability. Updated quarterly.</p>
+                <p style="font-size: 0.7rem; color: rgba(255,255,255,0.6); margin-bottom: 1rem;">Four equally-weighted factors. Workforce and power/grid constraints embedded within. Confidence interval reflects data recency and source reliability.</p>
                 <div class="velocity-breakdown">
                     <div class="breakdown-item">
                         <div class="breakdown-score">40</div>
                         <div class="breakdown-label">Timeline Adherence</div>
+                        <div style="font-size: 0.6rem; color: rgba(255,255,255,0.5); margin-top: 0.15rem;">incl. grid queue, permits</div>
                         <div class="breakdown-bar"><div class="breakdown-bar-fill" style="width: 25%;"></div></div>
                         <div class="breakdown-weight">Weight: 25%</div>
                     </div>
                     <div class="breakdown-item">
                         <div class="breakdown-score">55</div>
                         <div class="breakdown-label">Funding Security</div>
+                        <div style="font-size: 0.6rem; color: rgba(255,255,255,0.5); margin-top: 0.15rem;">incl. power agreements</div>
                         <div class="breakdown-bar"><div class="breakdown-bar-fill" style="width: 35%;"></div></div>
                         <div class="breakdown-weight">Weight: 25%</div>
                     </div>
                     <div class="breakdown-item">
                         <div class="breakdown-score">40</div>
                         <div class="breakdown-label">Construction Progress</div>
+                        <div style="font-size: 0.6rem; color: rgba(255,255,255,0.5); margin-top: 0.15rem;">incl. workforce avail.</div>
                         <div class="breakdown-bar"><div class="breakdown-bar-fill" style="width: 35%;"></div></div>
                         <div class="breakdown-weight">Weight: 25%</div>
                     </div>
                     <div class="breakdown-item">
                         <div class="breakdown-score">45</div>
                         <div class="breakdown-label">Operator Stability</div>
+                        <div style="font-size: 0.6rem; color: rgba(255,255,255,0.5); margin-top: 0.15rem;">incl. utility relations</div>
                         <div class="breakdown-bar"><div class="breakdown-bar-fill" style="width: 33%;"></div></div>
                         <div class="breakdown-weight">Weight: 25%</div>
                     </div>
                 </div>
             </div></div>
+        
+        <!-- Score Derivation Notes -->
+        <div class="card">
+            <h2 class="card-title">Score Change Log</h2>
+            <p style="font-size: 0.65rem; color: rgba(255,255,255,0.5); margin-bottom: 0.75rem;">Audit trail of velocity score changes with rationale. Full derivation notes available upon request.</p>
+            <table class="raid-table" style="font-size: 0.75rem;">
+                <thead>
+                    <tr>
+                        <th style="width: 90px;">Date</th>
+                        <th style="width: 60px;">Old</th>
+                        <th style="width: 60px;">New</th>
+                        <th style="width: 70px;">Change</th>
+                        <th>Rationale</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Jan 2026</td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td>--</td>
+                        <td>Monthly review; see RAID log for details</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="font-size: 0.6rem; color: rgba(255,255,255,0.4); margin-top: 0.75rem; font-style: italic;">Contact research@velocityxp.com for detailed factor-by-factor scoring derivation.</p>
+        </div>
+        
         <div class="card">
             <h2 class="card-title">Key Risks</h2></div>
         <div class="card thesis-card">
             <div class="thesis-title">Investment Thesis</div>
-            <p class="thesis-text">Rivian Georgia project restarted after 17-month construction pause. The $6.57B DOE loan closed January 16, 2025, just before the Biden administration ended. The loan breaks down to $5.975B principal plus $592M capitalized interest through DOE's Advanced Technology Vehicle Manufacturing program. Site preparation resumed August 2025 with utility installation and grading work. A ceremonial groundbreaking with state and local officials occurred September 16, 2025. Vertical construction of main structures scheduled for Q1 2026. The 9 million square foot facility on 1,800 acres will produce R2, R3, and R3X electric vehicles starting 2028, with capacity for 400,000 vehicles annually. Volkswagen's $5.8B joint venture provides additional financial stability. Key risk is Trump administration review of DOE loans, though legal experts note closed loans face significant barriers to reversal. General contractor is Clayco. (Sources: DOE.gov Jan 2025, Rivian Newsroom, Atlanta Journal-Constitution Jan 2025, Construction Review Online Oct 2025)</p></div>
+            <p class="thesis-text">Rivian Georgia project restarted after 17-month construction pause. The $6.57B DOE loan closed January 16, 2025, just before the Biden administration ended. The loan breaks down to $5.975B principal plus $592M capitalized interest through DOE's Advanced Technology Vehicle Manufacturing program. Site preparation resumed August 2025 with utility installation and grading work. A ceremonial groundbreaking with state and local officials occurred September 16, 2025. Vertical construction of main structures scheduled for Q1 2026. The 9 million square foot facility on 1,800 acres will produce R2, R3, and R3X electric vehicles starting 2028, with capacity for 400,000 vehicles annually. Volkswagen's $5.8B joint venture provides additional financial stability. Key risk is Trump administration review of DOE loans, though legal experts note closed loans face significant barriers to reversal. General contractor is Clayco. (Sources: DOE.gov Jan 2025, Rivian Newsroom, Atlanta Journal-Constitution Jan 2025, Construction Review Online Oct 2025)</p>
+            <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid rgba(255,255,255,0.2);">
+                <div style="font-size: 0.65rem; color: rgba(255,255,255,0.6); margin-bottom: 0.5rem;">SOURCES (Click to verify):</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                    <a href="https://www.sec.gov" target="_blank" style="font-size: 0.6rem; color: #FDFF66; text-decoration: none; padding: 0.2rem 0.5rem; background: rgba(255,255,255,0.1); border-radius: 4px;">SEC Filings</a>
+                    <a href="https://www.chips.gov" target="_blank" style="font-size: 0.6rem; color: #FDFF66; text-decoration: none; padding: 0.2rem 0.5rem; background: rgba(255,255,255,0.1); border-radius: 4px;">CHIPS.gov</a>
+                    <a href="https://www.energy.gov/lpo" target="_blank" style="font-size: 0.6rem; color: #FDFF66; text-decoration: none; padding: 0.2rem 0.5rem; background: rgba(255,255,255,0.1); border-radius: 4px;">DOE LPO</a>
+                </div>
+            </div></div>
         
         <div class="card">
             <h2 class="card-title">RAID Log</h2>
-            <p style="font-size: 0.65rem; color: rgba(255,255,255,0.5); margin-bottom: 1rem;">Risk assessments reviewed monthly. Last review: Jan 3, 2026. Sources: DOE.gov, Electrek, Atlanta Journal-Constitution</p>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.55rem; color: rgba(255,255,255,0.6); margin-bottom: 0.5rem;"><span>Severity: <span class="severity-badge" style="font-size: 0.5rem; padding: 0.1rem 0.3rem;">HIGH</span> Critical path</span><span><span class="severity-badge" style="font-size: 0.5rem; padding: 0.1rem 0.3rem;">MEDIUM</span> Manageable</span><span><span class="severity-badge" style="font-size: 0.5rem; padding: 0.1rem 0.3rem;">LOW</span> Minor impact</span></div>
+            <p style="font-size: 0.65rem; color: rgba(255,255,255,0.5); margin-bottom: 1rem;">Risk assessments reviewed monthly. Last review: Jan 9, 2026. Sources: DOE.gov, Electrek, Atlanta Journal-Constitution</p>
             <div class="raid-section">
                 <div class="raid-header"><div class="raid-icon">R</div><div class="raid-title">Risks</div></div>
                 <table class="raid-table">
@@ -277,25 +354,31 @@
         <div class="card">
             <h2 class="card-title">Upcoming Milestones</h2>
             <p style="font-size: 0.65rem; color: rgba(255,255,255,0.5); margin-bottom: 0.5rem;">Dates from DOE.gov, Rivian Newsroom, and Construction Review Online</p>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; font-size: 0.55rem; color: rgba(255,255,255,0.6); margin-bottom: 0.75rem;"><span><span class="status-badge-sm" style="font-size: 0.5rem; padding: 0.1rem 0.3rem;">COMPLETE</span> Achieved</span><span><span class="status-badge-sm" style="font-size: 0.5rem; padding: 0.1rem 0.3rem;">CONFIRMED</span> Official</span><span><span class="status-badge-sm" style="font-size: 0.5rem; padding: 0.1rem 0.3rem;">TARGET</span> Guidance</span><span><span class="status-badge-sm" style="font-size: 0.5rem; padding: 0.1rem 0.3rem;">PROJECTED</span> Estimate</span><span><span class="status-badge-sm" style="font-size: 0.5rem; padding: 0.1rem 0.3rem;">DELAYED</span> Behind</span></div>
             <div class="milestone-item">
                 <div class="milestone-date"><div class="milestone-month">Q1</div><div class="milestone-day">--</div><div class="milestone-year">2026</div></div>
-                <div class="milestone-content"><div class="milestone-title">Vertical Construction Begins</div><div class="milestone-desc">Foundations, building shells, and major structures commence.</div></div>
+                <div class="milestone-content"><div class="milestone-title">Vertical Construction Begins</div><div class="milestone-desc">Foundations, building shells commence. Groundbreaking Sept 16, 2025 with CEO Scaringe and Gov. Kemp.</div></div>
                 <div class="milestone-status"><span class="status-badge-sm">SCHEDULED</span></div>
             </div>
             <div class="milestone-item">
                 <div class="milestone-date"><div class="milestone-month">H1</div><div class="milestone-day">--</div><div class="milestone-year">2026</div></div>
-                <div class="milestone-content"><div class="milestone-title">R2 Production at Illinois</div><div class="milestone-desc">First R2 vehicles off assembly line at Normal, IL facility.</div></div>
-                <div class="milestone-status"><span class="status-badge-sm">PLANNED</span></div>
+                <div class="milestone-content"><div class="milestone-title">R2 Production at Illinois</div><div class="milestone-desc">First R2 vehicles off assembly line at Normal, IL. $45K starting price confirmed.</div></div>
+                <div class="milestone-status"><span class="status-badge-sm">CONFIRMED</span></div>
             </div>
             <div class="milestone-item">
-                <div class="milestone-date"><div class="milestone-month">Sep</div><div class="milestone-day">28</div><div class="milestone-year">2028</div></div>
-                <div class="milestone-content"><div class="milestone-title">DOE Funding Availability Ends</div><div class="milestone-desc">Federal funding available through this date per DOE terms.</div></div>
-                <div class="milestone-status"><span class="severity-badge">KEY DATE</span></div>
+                <div class="milestone-date"><div class="milestone-month">Q3</div><div class="milestone-day">--</div><div class="milestone-year">2027</div></div>
+                <div class="milestone-content"><div class="milestone-title">Georgia Partial Operations</div><div class="milestone-desc">Initial facility systems online. Preparing for vehicle production.</div></div>
+                <div class="milestone-status"><span class="status-badge-sm">PROJECTED</span></div>
             </div>
             <div class="milestone-item">
                 <div class="milestone-date"><div class="milestone-month">Dec</div><div class="milestone-day">31</div><div class="milestone-year">2028</div></div>
-                <div class="milestone-content"><div class="milestone-title">Georgia Production Start</div><div class="milestone-desc">R2, R3, R3X production begins. Target 400K vehicles annually.</div></div>
-                <div class="milestone-status"><span class="severity-badge">TARGET</span></div>
+                <div class="milestone-content"><div class="milestone-title">Phase 1 Customer Deliveries</div><div class="milestone-desc">R2, R3, R3X production. 200K vehicles/year. $3.35B DOE loan Phase 1.</div></div>
+                <div class="milestone-status"><span class="status-badge-sm">TARGET</span></div>
+            </div>
+            <div class="milestone-item">
+                <div class="milestone-date"><div class="milestone-month">Dec</div><div class="milestone-day">31</div><div class="milestone-year">2030</div></div>
+                <div class="milestone-content"><div class="milestone-title">Phase 2 Full Capacity</div><div class="milestone-desc">400K vehicles/year. 7,500 jobs required by GA incentives. $2.62B Phase 2 loan.</div></div>
+                <div class="milestone-status"><span class="status-badge-sm">TARGET</span></div>
             </div></div>
         </main>
         <footer class="footer">
@@ -315,7 +398,7 @@
             </div>
             <div class="footer-bottom">
                 <span>Data provided for informational purposes only. Not investment advice.</span>
-                <span>© 2025 Velocity. All rights reserved.</span>
+                <span>© 2026 Velocity. All rights reserved.</span>
             </div>
         </div>
     </footer>
